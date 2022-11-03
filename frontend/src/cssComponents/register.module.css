@@ -1,0 +1,94 @@
+.formRegister{
+    position: absolute;
+    background-color: rgb(32, 29, 29);
+    width: 35vw;
+    height: 89vh;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 15px #ffffff;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    /* visibility: hidden; */
+}
+
+.titles{
+    margin: 10px;
+    font-size: 1.6rem;
+    color: #ffffff;
+}
+
+.txt{
+    width: 85%;
+    height: 8%;
+    margin: 15px;
+    border-radius: 8px;
+}
+
+.txt::placeholder{
+    padding-left: 8px;
+    color: #111010;
+}
+
+
+/* ------------------------------- */
+.imgClose{
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    right: 9px;
+    top: 8px;
+}
+
+.btnEnviar{
+    width: 87%;
+    height: 14%;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+/* login */
+
+.form{
+    position: absolute;
+    width: 35vw;
+    height: 76vh;
+    background-color: rgb(32, 29, 29);
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 15px #ffffff;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    /* visibility: hidden; */
+}
+
+.h2{
+    margin: 30px;
+    font-size: 1.6rem;
+    color: #ffffff;
+}
+
+.txtCedulaIniciar{
+    width: 85%;
+    height: 10%;
+    border-radius: 8px;
+}
+
+.txtCedulaIniciar::placeholder{
+    padding-left: 8px;
+    color: #111010;
+}
+
+/* ------------------------------- */
+.imgClose{
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    right: 9px;
+    top: 8px;
+}
