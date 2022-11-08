@@ -1,53 +1,93 @@
-.formRegister{
+.form__register{
     position: absolute;
-    background-color: rgb(32, 29, 29);
-    width: 35vw;
-    height: 89vh;
-    border-radius: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 0 0 15px #ffffff;
+    background-color: #111010;
+    margin: auto;
+    /* tenga el 90% pero que no sea mayor a 49px */
+    width: 90%;
+    max-width: 400px;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
-    /* visibility: hidden; */
+    padding: 4.5rem 3rem;
+    border-radius:  10px;
+    box-shadow: 0 5px 10px -5px #ffffff;
+    text-align: center;
+    /* filter: blur(2px); */
 }
 
-.titles{
-    margin: 10px;
-    font-size: 1.6rem;
+.form_title{
+  font-size:  2rem;
+  margin-bottom: .5rem;
+  color: #ffffff;
+}
+
+.form_container{
+    margin-top:  .3em;
+    display: grid;
+    gap: 2.5em;
+}
+
+.form_group{
+    position: relative;
     color: #ffffff;
 }
 
-.txt{
-    width: 85%;
-    height: 8%;
-    margin: 15px;
-    border-radius: 8px;
+.form_input{
+    width: 100%;
+    background: none;
+    color: #ffffff;
+    font-size:  1rem;
+    padding:  .6em .3em;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #ffffff;
 }
 
-.txt::placeholder{
-    padding-left: 8px;
-    color: #111010;
+.form_input:focus + .form_label,
+.form_input:not(:placeholder-shown) + .form_label{
+    transform: translateY(-12px) scale(.7);
+    transform-origin: left top;
+    color: #db0606;
 }
 
+
+
+.form_label{
+    color: #ffffff;
+    cursor: pointer;
+    position: absolute;
+    top: 0px;
+    left: 7px;
+    transform: translateY(15px);
+    transition: transform .5s, color .3s;
+}
 
 /* ------------------------------- */
 .imgClose{
     position: absolute;
+    cursor: pointer;
     width: 35px;
     height: 35px;
     right: 9px;
     top: 8px;
 }
 
-.btnEnviar{
-    width: 87%;
-    height: 14%;
+.imgClose i{
+    font-size: 28px;
+    /* background-color: #db0606; */
+    color: #ffffff;
     border-radius: 10px;
-    margin-top: 20px;
+}
+
+.btnEnviar{
+    background-color: #db0606;
+    color: #ffffff;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: .8em 0;
+    border: none;
+    border-radius:  15px;
 }
 
 /* login */
@@ -66,7 +106,6 @@
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
-    /* visibility: hidden; */
 }
 
 .h2{

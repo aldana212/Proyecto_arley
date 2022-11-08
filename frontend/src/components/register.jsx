@@ -5,21 +5,32 @@ export function Register({click1, clicked1}) {
     return (
         <div>
             {click1 &&
-            <form  className={Style.formRegister} id="formulario">
+            <form className={Style.form__register}>
+            <h2 className={Style.form_title}>REGISTRO</h2>
 
-                <div onClick={() =>clicked1(false)} className={Style.close} id="close">
-                    <img  className={Style.imgClose}  alt="Cancel" />
+            <div onClick={() =>clicked1(false)} className={Style.imgClose}>
+                <i class='bx bx-x-circle' ></i>
+            </div>
+
+            <div className={Style.form_container}>
+                <div className={Style.form_group}>
+                    <input type="text" className={Style.form_input} name="Cedula" placeholder=" " />
+                    <label for="Cedula" className={Style.form_label}>Cedula</label>
                 </div>
-
-                <h2 className={Style.titles}>REGISTRO</h2>
-
-                <input type="text" name="" className={Style.txt} placeholder="Ingrese su cedula" />
-                <input type="text" name=""  className={Style.txt} placeholder="Ingrese su nombre" />        
-                <input type="text" name=""  className={Style.txt} placeholder="Ingrese su correo" />        
-
-                {/* <h2 className="titles">Ingresa tu contraseña</h2> */}
-                <button type="submit" className= {Style.btnEnviar} id="btnEnviar">CONFIRMAR</button>
-
+                <div className={Style.form_group}>
+                    <input type="text"  className={Style.form_input}  name="apellido" id="Apellido" placeholder=" " />
+                    <label for="" className={Style.form_label}>Nombre</label>
+                </div>
+                <div className={Style.form_group}>
+                    <input type="email"  className={Style.form_input}  name="correo" id="Correo" placeholder=" " />
+                    <label for="" className={Style.form_label}>Correo</label>
+                </div>
+                <div className={Style.form_group}>
+                    <input type="password"  className={Style.form_input} name="contraseña" id="Contraseña" placeholder=" " />
+                    <label for="" className={Style.form_label}>Contraseña</label>
+                </div>
+                <button type='submit' className={Style.btnEnviar}>Enviar</button>
+            </div> 
             </form>
               }
         </div>
