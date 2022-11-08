@@ -51,32 +51,4 @@ export function Home() {
     </div>
     </>
   );
-  // return (
-  //   <>
-  //     <header className={Style.header}>
-  //        <img className={Style.logo} src={logo} alt="Logo"></img>
-  //          <nav>
-  //             <ul className={Style.links_container}>
-  //                <li>
-  //                <button onClick={() =>setClickLogin(!clickLogin)} id="btnInicioSesion" className={Style.links}>Iniciar Sesion</button>
-  //                </li>
-  //                <li>
-  //                <button onClick={() =>setClickRegis(!clickRegis)} id="btnRegistro" className={Style.links}>Registrarme</button>
-  //                </li>
-  //             </ul>
-  //          </nav>
-  //     </header>
-  //     <main className={Style.article}>
-  //       <p className={Style.parrafo}>
-  //           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo atque
-  //           voluptatem natus suscipit quia! Magnam commodi eius ducimus amet quae
-  //           nostrum corporis? Cumque autem blanditiis dicta, repudiandae numquam
-  //           suscipit ipsa?
-  //       </p>
-  //       <Register click1={clickRegis} clicked1={setClickRegis}/>
-  //       <Login click={clickLogin} clicked={setClickLogin}/>
-  //    </main>
-  //    <Footer />
-  //   </>
-  // )
 }
