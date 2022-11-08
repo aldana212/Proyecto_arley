@@ -1,6 +1,6 @@
 import React from 'react'
 import Style from '../cssComponents/register.module.css'
-import logo from "../img/logo.jpg";
+import cancel from "../img/cancel.png";
 
 
 export function Login({click, clicked}) {
@@ -9,7 +9,7 @@ export function Login({click, clicked}) {
           {click &&
           <form  className={Style.form} id="form">
           <div onClick={() => clicked(false)} className={Style.close} id="close">
-            <img className={Style.imgClose} img={logo} alt="" />
+            <img className={Style.imgClose} img={cancel} alt="hola" />
           </div>
           <h2 className={Style.h2}>INICIAR SESION</h2>
           <input className={Style.txtCedulaIniciar} type="text" id="txtCedulaIniciar" placeholder="Ingresa tu cedula" />
