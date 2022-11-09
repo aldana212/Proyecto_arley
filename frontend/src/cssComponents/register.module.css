@@ -13,6 +13,7 @@
     border-radius:  10px;
     box-shadow: 0 5px 10px -5px #ffffff;
     text-align: center;
+    transition: transform .5s, color .3s;
     /* filter: blur(2px); */
 }
 
@@ -91,45 +92,3 @@
 }
 
 /* login */
-
-.form{
-    position: absolute;
-    width: 35vw;
-    height: 76vh;
-    background-color: rgb(32, 29, 29);
-    border-radius: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 0 0 15px #ffffff;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-}
-
-.h2{
-    margin: 30px;
-    font-size: 1.6rem;
-    color: #ffffff;
-}
-
-.txtCedulaIniciar{
-    width: 85%;
-    height: 10%;
-    border-radius: 8px;
-}
-
-.txtCedulaIniciar::placeholder{
-    padding-left: 8px;
-    color: #111010;
-}
-
-/* ------------------------------- */
-.imgClose{
-    position: absolute;
-    width: 35px;
-    height: 35px;
-    right: 9px;
-    top: 8px;
-}
