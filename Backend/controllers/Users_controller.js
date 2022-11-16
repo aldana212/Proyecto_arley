@@ -5,9 +5,9 @@ const auth = new auth_servi();
 const Joi = require('@hapi/joi');
 
 const validateRegister = Joi.object({
-    cedula: Joi.string().min(9).required(),
+    cedula: Joi.number().max(10).required(),
     name: Joi.string().min(3).max(255).required(),
-    mail: Joi.string().min(3).max(255).required().email(),
+    mail: Joi.string().min(3).max(255).lowercase().required().email(),
     contraseña: Joi.string().min(3).max(255).required(),
 })
 
