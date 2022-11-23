@@ -14,6 +14,7 @@ export function Home() {
 
   return(
     <>
+      {/* header */}
       <header className={Style.header}>
         <a href="#" className={Style.logo}><img src={logo} alt="" /></a>
         <ul className={Style.navbar}>
