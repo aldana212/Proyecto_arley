@@ -1,6 +1,7 @@
 import React from 'react'
 import Style from '../cssComponents/register.module.css'
 import { useState} from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import swal from 'sweetalert2'
 
@@ -13,6 +14,11 @@ export function Register({click1, clicked1}) {
     const [mail, setMail] = useState('');
     const [contraseña, setContraseña] = useState('');
 
+
+    const navigate = useNavigate();
+
+
+
     const store = async(e) =>{
       e.preventDefault()
       await axios.post('http://localhost:3009/user/register', {cedula: cedula, name:name, mail: mail, contraseña: contraseña})
@@ -22,6 +28,11 @@ export function Register({click1, clicked1}) {
          title: 'Exito',
          text: res.data.data,
         })
+        
+        setTimeout(() => {
+           navigate('/HomeAdmin')
+        }, 2000);
+
        }).catch(err =>{
          if(err.response.data.error){
            swal.fire({
