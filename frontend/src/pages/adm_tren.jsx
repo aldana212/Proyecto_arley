@@ -4,7 +4,7 @@ import { Button,Modal} from 'react-bootstrap';
 import { Header } from '../components/header'
 import {useState} from 'react';
 
-export function Home_admin() {
+export function Adm_tren() {
 
     const [values , setValues] = useState({
         hora: '',
