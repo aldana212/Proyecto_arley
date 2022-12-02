@@ -7,14 +7,16 @@ import logo from "../img/logo.jpg";
 export function Header(){
   return (
     <>
-        <header className={Style.header}>
-        <Link href="#" className={Style.logo}><img src={logo} alt="" /></Link>
-        <h1>TRAIN STATION</h1>
-        <div className={Style.main}>
-            <Link className={Style.user}><i class='bx bxs-user'></i>Cerrar</Link>
-            <Link className={Style.user}><i class='bx bxs-exit'></i>Crear</Link>
-        </div>
-        </header>
+      <header className={Style.cont_header}>
+          <div className={Style.nav} id={Style.container}>
+              <Link href="" className={Style.logo}><i className='bx bxs-train'></i>Train Station</Link>
+              <div className={Style.navbar}>
+              <Link className={Style.user}><i class='bx bxs-user'></i>Cerrar</Link>
+              <button className={Style.btn}><i class='bx bxs-user' ></i> My acount</button>
+              </div>
+              
+          </div>
+    </header>
     </>
   )
 }

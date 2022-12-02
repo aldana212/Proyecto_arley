@@ -45,8 +45,8 @@ export function Adm_Users() {
     return (
         <>
             <Header />
-            <div className="container d-flex align-items-center justify-content-center vh-100">
-                    <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded vh-50 vw-100"> 
+            <div className="container">
+                    <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded "> 
                     <div className="row ">
                         <div className="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred"><h2><b>Trains Details</b></h2></div>
                             <div className="col-sm-3 offset-sm-1 mt-5 ">
@@ -96,6 +96,7 @@ export function Adm_Users() {
                 <div className="model_box">
                 <Modal 
                 show={modalShow}
+                className="mt-5"
                 >
                   <Modal.Header closeButton onClick={handleClose}>
                     <Modal.Title>Add Record</Modal.Title>

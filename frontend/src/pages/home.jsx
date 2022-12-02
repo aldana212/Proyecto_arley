@@ -15,6 +15,8 @@ export function Home() {
 
     return(
       <>
+        <Register click1={clickRegis} clicked1={setClickRegis}/>
+        <Login click={clickLogin} clicked={setClickLogin}/>
       <header className={Style.cont_header}>
         <div className={Style.nav} id={Style.container}>
             <Link href="" className={Style.logo}><i className='bx bxs-train'></i>Train Station</Link>
@@ -25,14 +27,13 @@ export function Home() {
                 <li><Link href="">porperti</Link></li>
             </ul>
 
-            <button onClick={() =>setClickLogin(!clickLogin)} className={Style.btn}>Iniciar Sesion</button>
+            <button onClick={() =>setClickLogin(!clickLogin)} className={Style.btn}><i class='bx bxs-user' ></i> Sing in</button>
         </div>
     </header>
 
-    <Register click1={clickRegis} clicked1={setClickRegis}/>
-    <Login click={clickLogin} clicked={setClickLogin}/>
+  
 
-    <section className={Style.home} id={Style.container}>
+    <section className={Style.home}>
       <div className={Style.text}>
         <div className={Style.slide}>
             <span className={Style.one}>hello</span>
@@ -40,7 +41,7 @@ export function Home() {
         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem amet animi molestiae beatae 
         perspiciatis consectetur vel quisquam sapiente corrupti, quae fuga minima, pariatur, nulla tempore unde facilis aliquid ut qui!</p>
         <div className={Style.button}>
-        <li><button onClick={() =>setClickRegis(!clickRegis)} className={Style.btn1}>Registrarme</button></li>
+        <li><button onClick={() =>setClickRegis(!clickRegis)} className={Style.btn1}>sing up</button></li>
         </div>
         </div>
         {/* <div className={Style.logo1}>

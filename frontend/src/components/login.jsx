@@ -1,30 +1,55 @@
 import React from 'react'
 import Style from '../cssComponents/register.module.css'
+import { Link } from 'react-router-dom';
+
 
 
 export function Login({click, clicked}) {
     return (
         <>
           {click &&
-            <form className={Style.form__register}>
-            <h2 className={Style.form_title}>LOGIN</h2>
-
-            <div onClick={() =>clicked(false)} className={Style.imgClose}>
-                <i class='bx bx-x-circle' ></i>
-            </div>
-
-            <div className={Style.form_container}>
-                <div className={Style.form_group}>
-                    <input type="text" className={Style.form_input} name="Cedula" placeholder=" " />
-                    <label for="Cedula" className={Style.form_label}>Cedula</label>
-                </div>
-                <div className={Style.form_group}>
-                    <input type="password"  className={Style.form_input} name="contraseña" id="Contraseña" placeholder=" " />
-                    <label for="" className={Style.form_label}>Contraseña</label>
-                </div>
-                <button type='submit' className={Style.btnEnviar}>Enviar</button>
-            </div> 
-            </form>
+            <div className={Style.container_form}>
+                <form className={Style.form}>
+                <div onClick={() =>clicked(false)} className={Style.imgClose}>
+                        <i className='bx bx-x-circle' ></i>
+                      </div>
+                    <h1 className={Style.form_title}>Inicio sesion</h1>
+                    {/* <p className={Style.form_paragraph}>¿Aun no tienes una cuenta?<Link href="" className="form_link">Entra aqui</Link></p> */}
+            
+                    <div className={Style.form__container}>
+                        <div className={Style.form__group}>
+                            <input 
+                            type="text" 
+                            name='cedula' 
+                            id="Cedula" 
+                            className={Style.form__input} 
+                            placeholder=" "
+                            // onChange={handleInput}
+                            // value={values.cedula}
+                            />
+                            <label for="Cedula" className={Style.form__label}>Cedula:</label>
+                            <span className={Style.form__line}></span>
+                        </div>
+            
+            
+                        <div className={Style.form__group}>
+                            <input 
+                            type="password" 
+                            name='contraseña' 
+                            id="contraseña" 
+                            className={Style.form__input} 
+                            placeholder=" "
+                            // onChange={handleInput}
+                            // value={values.contraseña}
+                            />
+                            <label for="contraseña" className={Style.form__label}>Contraseña:</label>
+                            <span className={Style.form__line}></span>
+                        </div>
+            
+                        <button type="submit" className={Style.form__submit}>Entrar</button>
+                    </div>
+                </form>
+    </div>
           }
         </>
     )

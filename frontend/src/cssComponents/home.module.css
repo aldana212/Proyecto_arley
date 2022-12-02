@@ -4,7 +4,8 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 100;
+    /* z-index: 1; */
+    position: relative;
 }
 
 
@@ -56,6 +57,8 @@
     background-color: rgb(255, 0, 0);
     color: #fff;
     border-radius: 5rem;
+    border: none;
+
 }
 
 .btn:hover{
@@ -67,15 +70,17 @@
 
 
 #container{
-    max-width: 1068px;
+    max-width: 1098px;
     margin-left: auto;
     margin-right: auto;
 }
 
 .home{
-    margin-top: 10rem;
-    height: 490px;
-    /* background-color: #515ECF; */
+    margin-top: 9rem;
+    max-width: 1198px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 650px;
     background: url(../img/Train4.jpeg);
     background-repeat: no-repeat;
     background-size: cover;
@@ -85,6 +90,7 @@
     align-items: center;
     border-radius: 1.5rem;
     position: relative;
+    /* z-index: 1; */
 }
 
 .text{
@@ -160,6 +166,7 @@
     top: 50%;
     padding:  0 3%;
     transform:  translateY(-50%);
+    /* z-index: 1; */
 }
 
 .social ul li{

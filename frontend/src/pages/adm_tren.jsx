@@ -47,8 +47,8 @@ export function Adm_tren() {
   return (
     <>
         <Header />
-        <div className="container d-flex align-items-center justify-content-center vh-100">
-                <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded vh-50 vw-100"> 
+        <div className="container">
+                <div className="crud shadow-lg p-3  bg-body rounded mt-5"> 
                 <div className="row ">
                     <div className="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred"><h2><b>Trains Details</b></h2></div>
                         <div className="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
@@ -99,14 +99,94 @@ export function Adm_tren() {
                                   </Button>
                                   </td>
                               </tr>
+                              <tr>
+                                  <td>16:00</td>
+                                  <td>4/11/2022</td>
+                                  <td>Morrio</td>
+                                  <td>Chonia</td>
+                                  <td>1</td>
+                                  <td>6</td>
+                                  <td>
+                                  <Button variant="danger" onClick={ShowModelInser1}>
+                                        Actualizar
+                                  </Button>
+                                 </td>
+                              </tr>
+                              <tr>
+                                  <td>16:00</td>
+                                  <td>4/11/2022</td>
+                                  <td>Morrio</td>
+                                  <td>Chonia</td>
+                                  <td>1</td>
+                                  <td>6</td>
+                                  <td>
+                                  <Button variant="danger" onClick={ShowModelInser1}>
+                                        Actualizar
+                                  </Button>
+                                 </td>
+                              </tr>
+                              <tr>
+                                  <td>16:00</td>
+                                  <td>4/11/2022</td>
+                                  <td>Morrio</td>
+                                  <td>Chonia</td>
+                                  <td>1</td>
+                                  <td>6</td>
+                                  <td>
+                                  <Button variant="danger" onClick={ShowModelInser1}>
+                                        Actualizar
+                                  </Button>
+                                 </td>
+                              </tr>
+                              <tr>
+                                  <td>16:00</td>
+                                  <td>4/11/2022</td>
+                                  <td>Morrio</td>
+                                  <td>Chonia</td>
+                                  <td>1</td>
+                                  <td>6</td>
+                                  <td>
+                                  <Button variant="danger" onClick={ShowModelInser1}>
+                                        Actualizar
+                                  </Button>
+                                 </td>
+                              </tr>
+                              <tr>
+                                  <td>16:00</td>
+                                  <td>4/11/2022</td>
+                                  <td>Morrio</td>
+                                  <td>Chonia</td>
+                                  <td>1</td>
+                                  <td>6</td>
+                                  <td>
+                                  <Button variant="danger" onClick={ShowModelInser1}>
+                                        Actualizar
+                                  </Button>
+                                 </td>
+                              </tr>
+                              <tr>
+                                  <td>16:00</td>
+                                  <td>4/11/2022</td>
+                                  <td>Morrio</td>
+                                  <td>Chonia</td>
+                                  <td>1</td>
+                                  <td>6</td>
+                                  <td>
+                                  <Button variant="danger" onClick={ShowModelInser1}>
+                                        Actualizar
+                                  </Button>
+                                 </td>
+                              </tr>
+
                           </tbody>
                       </table>
                   </div>   
               </div>  
         
-            <div className="model_box">
+            <div className="model_box mb-5">
             <Modal 
             show={modalShow}
+            className="mt-5"
             >
               <Modal.Header closeButton onClick={handleClose}>
                 <Modal.Title>Add Record</Modal.Title>
