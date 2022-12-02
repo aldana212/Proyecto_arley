@@ -7,7 +7,7 @@ import logo from "../img/logo.jpg";
 export function Header(){
   return (
     <>
-        <header>
+        <header className={Style.header}>
         <Link href="#" className={Style.logo}><img src={logo} alt="" /></Link>
         <h1>TRAIN STATION</h1>
         <div className={Style.main}>
