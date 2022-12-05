@@ -15,7 +15,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #161616;
-  /* z-index: -40000; */
+  height: auto;
+  /* position: relative; */
 }
 
 body::before{

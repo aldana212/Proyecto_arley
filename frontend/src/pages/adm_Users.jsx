@@ -83,14 +83,17 @@ export function Adm_Users() {
   }
 
   //funcion para controlar los el valor de los input
-  const handleInput = (e) => {
+  const handleInputInsert = (e) => {
     const { name, value } = e.target
     setValues({
       // reinicia los valores y creo una copia
       ...values,
       [name]: value,
     })
+  }
 
+  const handleInputEdit = (e) => {
+    const { name, value } = e.target
     SetRowData({
       ...RowData,
       [name]: value,
@@ -134,7 +137,7 @@ export function Adm_Users() {
     e.preventDefault()
     await axios.post('http://localhost:3009/user/CreateUsers', values)
       .then(res => {
-        toast.success(res.data.data, {
+        toast.success(res.data.responde + '👌', {
           position: "top-right",
           autoClose: 2500,
           hideProgressBar: false,
@@ -145,7 +148,7 @@ export function Adm_Users() {
           theme: "light",
         });
 
-        navigate('/HomeUser')
+        navigate('/AdminUser')
         getUsers()
         handleClose()
 
@@ -243,16 +246,16 @@ export function Adm_Users() {
                 <form onSubmit={handleForm}>
 
                   <div className="form-group">
-                    <input type="text" name='cedula' onChange={handleInput} value={values.cedula} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Cedula" />
+                    <input type="text" name='cedula' onChange={handleInputInsert} value={values.cedula} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Cedula" />
                   </div>
                   <div className="form-group mt-3">
-                    <input type="text" name='name' onChange={handleInput} value={values.name} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name" />
+                    <input type="text" name='name' onChange={handleInputInsert} value={values.name} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name" />
                   </div>
                   <div className="form-group mt-3">
-                    <input type="email" name='mail' onChange={handleInput} value={values.mail} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email" />
+                    <input type="email" name='mail' onChange={handleInputInsert} value={values.mail} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email" />
                   </div>
                   <div className="form-group mt-3">
-                    <input type="password" name='contraseña' onChange={handleInput} value={values.contraseña} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter City" />
+                    <input type="password" name='contraseña' onChange={handleInputInsert} value={values.contraseña} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter City" />
                   </div>
                   {/* <div className="form-group mt-3">
                           <input type="text" name="id_rol1" onChange={handleInput} value={values.id_rol1} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter City"/>
@@ -285,13 +288,13 @@ export function Adm_Users() {
               <Modal.Body>
                 <form onSubmit={handleFormUpdate}>
                   <div className="form-group">
-                    <input type="text" name='cedula' value={RowData.cedula} onChange={handleInput} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Cedula" />
+                    <input type="hidden" name='cedula' value={RowData.cedula} onChange={handleInputEdit} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Cedula" />
                   </div>
                   <div className="form-group mt-3">
-                    <input type="text" name='name' value={RowData.name} onChange={handleInput} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name" />
+                    <input type="text" name='name' value={RowData.name} onChange={handleInputEdit} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name" />
                   </div>
                   <div className="form-group mt-3">
-                    <input type="mail" name='mail' value={RowData.mail} onChange={handleInput} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email" />
+                    <input type="mail" name='mail' value={RowData.mail} onChange={handleInputEdit} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email" />
                   </div>
                   {/* <div className="form-group mt-3">
                                   <select class="form-select" aria-label="Default select example">

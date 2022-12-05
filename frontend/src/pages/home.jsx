@@ -20,9 +20,9 @@ export function Home() {
         <div className={Style.nav} id={Style.container}>
             <Link href="" className={Style.logo}><i className='bx bxs-train'></i>Train Station</Link>
             <ul className={Style.navbar}>
-                <li><Link  to='/'>Home</Link></li>
+                <li><Link  to='/HomeUsers'>Home</Link></li>
                 <li><Link to='/HomeAdmin'>Trains</Link></li>
-                <li><Link to='/HomeUser'>Users</Link></li>
+                <li><Link to='/AdminUser'>Users</Link></li>
                 <li><Link >porperti</Link></li>
             </ul>
 

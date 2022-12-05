@@ -57,6 +57,7 @@ class UserController{
             console.log("error.." + error)
           }   
     }
+    
     UserLogin = (req, res) =>{
        const { error } = validateLogin.validate(req.body)
        if(error){
@@ -66,7 +67,7 @@ class UserController{
        }
        try {
         const data = req.body
-        // console.log(data);
+        console.log(data);
         const validar = auth.Users_Login(data)
         validar.then(responde =>{
             res.status(201).json({ status: 201, responde})
