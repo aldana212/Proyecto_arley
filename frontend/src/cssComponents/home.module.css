@@ -77,10 +77,12 @@
 
 .home{
     margin-top: 9rem;
-    max-width: 1198px;
+    /* max-width: 1198px; */
+    max-width: 1098px;
     margin-left: auto;
     margin-right: auto;
-    height: 650px;
+    /* height: 650px; */
+    height: 450px;
     background: url(../img/Train4.jpeg);
     background-repeat: no-repeat;
     background-size: cover;

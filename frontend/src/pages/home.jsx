@@ -1,8 +1,5 @@
 import React from 'react'
 import Style from '../cssComponents/home.module.css'
-// import { Footer } from '../components/footer';
-// import logo from "../img/logo.jpg";
-// import train from "../img/Train-amico.png";
 import { useState} from "react";
 import { Register } from '../components/register';
 import { Login} from '../components/login';
@@ -10,6 +7,8 @@ import { Link } from 'react-router-dom';
 
 
 export function Home() {
+
+  
     const [clickLogin, setClickLogin] = useState(false);
     const [clickRegis, setClickRegis] = useState(false);
 
@@ -21,10 +20,10 @@ export function Home() {
         <div className={Style.nav} id={Style.container}>
             <Link href="" className={Style.logo}><i className='bx bxs-train'></i>Train Station</Link>
             <ul className={Style.navbar}>
-                <li><Link href="">Home</Link></li>
-                <li><Link href="">About</Link></li>
-                <li><Link href="">sales</Link></li>
-                <li><Link href="">porperti</Link></li>
+                <li><Link  to='/'>Home</Link></li>
+                <li><Link to='/HomeAdmin'>Trains</Link></li>
+                <li><Link to='/HomeUser'>Users</Link></li>
+                <li><Link >porperti</Link></li>
             </ul>
 
             <button onClick={() =>setClickLogin(!clickLogin)} className={Style.btn}><i class='bx bxs-user' ></i> Sing in</button>
