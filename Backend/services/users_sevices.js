@@ -74,7 +74,7 @@ class servi_User{
     }
 
     updateUsers(data, id){
-        // console.log(data);
+        console.log(data);
         try{
             return new Promise((resolve, reject) =>{
                 const {cedula,name, mail, contraseña} = data;

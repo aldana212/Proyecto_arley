@@ -30,7 +30,7 @@ export function Login({ click, clicked }) {
         await axios.post("http://localhost:3009/user/login", values, {
             withCredentials: true,
         })
-            .then((data) => {
+            .then(({data}) => {
                 console.log(data);
                 toast.success(data, {
                     position: "top-right",
@@ -42,9 +42,7 @@ export function Login({ click, clicked }) {
                     progress: undefined,
                     theme: "light",
                 });
-                setTimeout(() => {
                     navigate('/AdminUser')
-                }, 3000);
             }).catch(err => {
                 console.log(err);
                 toast.error(err.response.data.error, {

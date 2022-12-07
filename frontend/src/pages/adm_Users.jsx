@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Row } from 'react-bootstrap';
 import { Header } from '../components/header'
 import { useState, useEffect } from "react";
 import axios from 'axios';
@@ -16,40 +16,39 @@ export function Adm_Users() {
   const [cookies, setCookie, removeCookie] = useCookies([])
 
   useEffect(() => {
-    const veryToken = async () => {
-      console.log("estas son mis " + cookies.jwt)
-      if (!cookies.jwt) {
-        console.log("cookiesss " + cookies.jwt)
-        toast.error("error")
+    veryToken()
+    setisLoding(true);
+    getUsers()
+  }, [])
+
+  const veryToken = async () => {
+    if (!cookies.jwt) {
+      toast.error("error")
+      navigate("/")
+    } else {
+      const { data } = await axios.get(
+        'http://localhost:3009/user/Admin',
+        {
+          withCredentials: true,
+        })
+      if (!data.status) {
+        removeCookie('jwt')
         navigate("/")
       } else {
-        const data = await axios.get(
-          'http://localhost:3009/user/Admin',
-          {
-            withCredentials: true,
-          })
-          console.log("");
-        if (!data.status) {
-          removeCookie('jwt')
-          navigate("/")
-        } else {
-          toast.success("res.data.responde" + '👌', {
-            position: "top-right",
-            autoClose: 2500,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        }
+        console.log(data);
+        toast.success(`Bienvenido ${data.data.name}`, {
+          position: "top-right",
+          autoClose: 2500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     }
-
-    veryToken()
-
-  }, [cookies, navigate])
+  }
 
 
   const logOut = () => {
@@ -85,11 +84,6 @@ export function Adm_Users() {
   const [modalShow, setModalShow] = useState(false);
   const [show, setShow] = useState(false);
 
-  //utilice para darle efecto al momento de renderizar los Users
-  useEffect(() => {
-    setisLoding(true);
-    getUsers()
-  }, [])
 
 
   //funcion para traer todos los Users
@@ -113,6 +107,7 @@ export function Adm_Users() {
       if (result.isConfirmed) {
         axios.delete(`http://localhost:3009/user/${id}`)
           .then(e => {
+            console.log(e);
             swal.fire(
               'Deleted!',
               'Your file has been deleted.',
@@ -144,9 +139,11 @@ export function Adm_Users() {
 
   //funcion para update un Users
   const handleFormUpdate = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+
     await axios.put(`http://localhost:3009/user/${id}`, RowData)
       .then((e) => {
+        console.log(e)
         toast.success(e.data.responde, {
           position: "top-right",
           autoClose: 2500,
@@ -160,7 +157,8 @@ export function Adm_Users() {
         getUsers()
         handleClose()
       }).catch((err) => {
-        toast.error(err.response.data.error, {
+        console.log(err)
+        toast.error("dasdsa", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -170,7 +168,6 @@ export function Adm_Users() {
           progress: undefined,
           theme: "light",
         });
-        console.log(err.response.data.error);
       })
   }
 
@@ -235,7 +232,7 @@ export function Adm_Users() {
 
   return (
     <>
-      <Header logOut={logOut}/>
+      <Header logOut={logOut} />
       <div className="container">
         <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded ">
           <div className="row ">
@@ -243,9 +240,6 @@ export function Adm_Users() {
             <div className="col-sm-3 offset-sm-1 mt-5 ">
               <Button className="btn-primary" onClick={ShowModelInser}>
                 Add New Student
-              </Button>
-              <Button className="btn-primary">
-                verify
               </Button>
             </div>
           </div>

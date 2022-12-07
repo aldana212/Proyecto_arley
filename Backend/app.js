@@ -16,20 +16,10 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.get('/cookie', function (req, res) {
-    res.cookie("cookie_nam", 'cookie_value').send('Cookie is set');
-});
-
-app.get('/1', function (req, res) {
-    console.log("Cookies1111 :  ", req.cookies);
-});
-
-
 app.use(
     cors(
         {
             origin: ["http://localhost:3000"],
-            methods: ["GET", "POST"],
             credentials: true,
         }
     )

@@ -5,9 +5,11 @@ import { Header } from '../components/header'
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import swal from 'sweetalert2'
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Spiner } from "../components/Spiner";
+import { useCookies } from 'react-cookie';
+
 
 export function Adm_tren() {
 
@@ -17,9 +19,13 @@ export function Adm_tren() {
         destino: '',
         estado: '',
         numero_tren: '',
-        cupos: '',
+        hora: '',
 
     });
+
+    const navigate = useNavigate();
+    const [cookies, setCookie, removeCookie] = useCookies([])
+
 
     //utilizo para guardar y cambiar los datos de editar
     const [RowData, SetRowData] = useState({
@@ -28,19 +34,55 @@ export function Adm_tren() {
         destino: '',
         estado: '',
         numero_tren: '',
-        // cupos: '',
+        hora_salidad: '',
     })
 
     const [id, setId] = useState("");
 
     const [isLoding, setisLoding] = useState(true);
- 
+
     const [trains, setTrains] = useState([])
 
     useEffect(() => {
+        veryToken()
         setisLoding(true)
         getTrains()
+
     }, [])
+
+
+    const veryToken = async () => {
+        if (!cookies.jwt) {
+            toast.error("error")
+            navigate("/")
+        } else {
+            const { data } = await axios.get(
+                'http://localhost:3009/user/Admin',
+                {
+                    withCredentials: true,
+                })
+            if (!data.status) {
+                removeCookie('jwt')
+                navigate("/")
+            } else {
+                toast.success(`Bienvenido ${data.data.name}`, {
+                    position: "top-right",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+        }
+    }
+
+    const logOut = () => {
+        removeCookie('jwt')
+        navigate("/")
+    }
 
 
     const getTrains = async () => {
@@ -61,7 +103,6 @@ export function Adm_tren() {
 
     const handleInputEdit = (event) => {
         const { name, value } = event.target;
-        console.log(name, value);
         SetRowData({
             // reinicia los valores y creo una copia
             ...RowData,
@@ -87,6 +128,15 @@ export function Adm_tren() {
                 });
                 getTrains()
                 handleClose()
+
+                setValues({
+                    aforo: '',
+                    origen: '',
+                    destino: '',
+                    estado: '',
+                    numero_tren: '',
+                    hora: '',
+                })
             }).catch(err => {
                 toast.error(err.response.data.error, {
                     position: "top-right",
@@ -104,58 +154,58 @@ export function Adm_tren() {
     const deleteUsers = async (id) => {
         console.log(id);
         swal.fire({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!'
-        }).then( async(result) => {
-          if (result.isConfirmed) {
-            await axios.delete(`http://localhost:3009/Trains/${id}`)
-              .then(e => {
-                swal.fire(
-                  'Deleted!',
-                  'Your file has been deleted.',
-                  'success'
-                )
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await axios.delete(`http://localhost:3009/Trains/${id}`)
+                    .then(e => {
+                        swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                        getTrains()
+                    })
+            }
+        })
+    }
+
+
+    const handleFormUpdate = async (e) => {
+        e.preventDefault()
+        axios.put(`http://localhost:3009/Trains/${id}`, RowData)
+            .then((e) => {
+                toast.success(e.data.responde, {
+                    position: "top-right",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                })
                 getTrains()
-              })
-          }
-        })
-      }
-
-
-    const handleFormUpdate = async(e) =>{
-       e.preventDefault()
-       axios.put(`http://localhost:3009/Trains/${id}`, RowData)
-       .then((e) => {
-        toast.success(e.data.responde, {
-          position: "top-right",
-          autoClose: 2500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light", 
-        })
-        getTrains()
-        handleClose()
-      }).catch((err) => {
-        toast.error(err.response.data.error, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        console.log(err.response.data.error);
-      })
+                handleClose()
+            }).catch((err) => {
+                toast.error(err.response.data.error, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+                console.log(err.response.data.error);
+            })
     }
 
 
@@ -173,13 +223,13 @@ export function Adm_tren() {
         setModalShow(false)
     };
 
-    if(isLoding){
+    if (isLoding) {
         return <div><Spiner /></div>
-      }
+    }
 
     return (
         <>
-            <Header />
+            <Header logOut={logOut} />
             <div className="container">
                 <div className="crud shadow-lg p-3  bg-body rounded mt-5">
                     <div className="row ">
@@ -256,7 +306,7 @@ export function Adm_tren() {
                                         <input type="text" name='numero_tren' onChange={handleInput} value={values.numero_tren} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter numero_tren" />
                                     </div>
                                     <div className="form-group">
-                                        <input type="text" name='cupos' onChange={handleInput} value={values.cupos} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter cupos" />
+                                        <input type="time" name='hora' onChange={handleInput} value={values.hora} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter cupos" />
                                     </div>
                                     <button type="submit" onClick={handleClose} className="btn btn-success mt-4">Añadir</button>
                                 </form>
@@ -296,9 +346,9 @@ export function Adm_tren() {
                                     <div className="form-group">
                                         <input type="text" name='numero_tren' onChange={handleInputEdit} value={RowData.numero_tren} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter numero_tren" />
                                     </div>
-                                    {/* <div className="form-group">
-                                        <input type="text" name='cupos' onChange={handleInput} value={RowData.cupos} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter cupos" />
-                                    </div> */}
+                                    <div className="form-group">
+                                        <input type="time" name='hora_salidad' onChange={handleInputEdit} value={RowData.hora_salidad} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter cupos" />
+                                    </div>
 
                                     <button type="submit" className="btn btn-success mt-4">Add Record</button>
                                 </form>

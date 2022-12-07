@@ -6,12 +6,12 @@ const {verifyToken} = require('../middlewares/verifyToken.js')
 
 
 
+
+router.get('/Users', controller.GetUsers)
+router.get('/Admin',  verifyToken)
 router.post('/register', controller.UserRegistre);
 router.post('/login', controller.UserLogin);
 router.post('/CreateUsers', controller.PostUsers);
-router.get('/Users', controller.GetUsers)
-router.get('/Admin',  verifyToken)
-// router.get('/:cedula', controller.GetUserId)
 router.delete('/:cedula', controller.DeleteUsers)
 router.put("/:cedula" , controller.PutUsers)
 

@@ -32,10 +32,8 @@ class UserController {
         try {
             const show = services.Users_Admin()
             show.then(responde => {
-                console.log(responde);
                 res.status(201).json({ status: "OK", data: responde});
             }).catch(error => {
-                console.log(error);
                 res.status(500).json({ status: "FAILDED", data: error });
             })
         } catch (error) {
@@ -60,7 +58,7 @@ class UserController {
     //     }
     // }
 
-    UserLogin = (req, res) => {
+    async UserLogin(req, res){
         const { error } = validateLogin.validate(req.body)
         if (error) {
             return res.status(400).json(
@@ -74,11 +72,10 @@ class UserController {
                 let token = responde.token;
                 res.cookie("jwt", token, { httpOnly: false, expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000) })
                 .json({
-                    status: "hecho", data: responde
+                    status: 201, data: "responde"
                 })
             }).catch(error => {
-                console.log("error121212");
-                res.status(500).json({ status: 500, error })
+                res.status(500).json({ status: 500, error:"error" })
             })
         } catch (error) {
             console.log("erorr...");
@@ -95,7 +92,6 @@ class UserController {
         }
         try {
             const data = req.body;
-            console.log(data);
             const agregar = auth.Users_register(data);
             agregar.then((responde) => {
                 res.status(201).json({ status: "OK", responde });
@@ -116,8 +112,6 @@ class UserController {
         }
         try {
             const data = req.body;
-            console.log(data);
-            const data1 = req.cookies
             const agregar = services.CreateUsers(data);
             agregar.then((responde) => {
                 res.status(201).send({ status: "OK", responde, DATA: data1 });

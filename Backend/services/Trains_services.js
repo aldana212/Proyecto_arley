@@ -26,15 +26,13 @@ class servi_trains {
     }
     CreateTrains(data) {
         try {
+            console.log(data);
             return new Promise((resolve, reject) => {
-                const { aforo, cupos, destino, estado, numero_tren, origen } = data;
-                conexion.query('INSERT INTO trenes(aforo,origen, destino,estado,numero_tren) VALUES(?,?,?,?,?)', [aforo, origen, destino, estado, numero_tren], (err, result) => {
+                const { aforo, hora, destino, estado, numero_tren, origen } = data;
+                conexion.query('INSERT INTO trenes(aforo,hora_salidad, origen, destino,estado,numero_tren) VALUES(?,?,?,?,?,?)', [aforo, hora, origen, destino, estado, numero_tren], (err, result) => {
                     if (err) {
                         reject("err")
-                        console.log(err);
                     } else {
-                        conexion.query("INSERT INTO reservas(cupos) VALUES(?)", [cupos])
-                        console.log("result");
                         resolve("todo bien")
                     }
                 })
@@ -48,8 +46,8 @@ class servi_trains {
         try {
             return new Promise((resolve, reject) => {
                 // const {aforo, cupos, destino, estado,numero_tren, origen} = data;
-                const { aforo, destino, estado, numero_tren, origen } = data;
-                conexion.query("UPDATE trenes SET ? WHERE codigo_servicio = ?", [{ aforo, origen, destino, estado, numero_tren }, id], (err, result) => {
+                const { aforo, hora_salidad, destino, estado, numero_tren, origen } = data;
+                conexion.query("UPDATE trenes SET ? WHERE codigo_servicio = ?", [{ aforo,hora_salidad, origen, destino, estado, numero_tren }, id], (err, result) => {
                     if (err) {
                         return reject(err)
                     } else {
@@ -65,10 +63,8 @@ class servi_trains {
     deleteTrain(id) {
         try {
             return new Promise((resolve, reject) => {
-                // console.log(id);
                 conexion.query("DELETE FROM trenes WHERE codigo_servicio = ? ", [id], (err, result) => {
                     if (result) {
-                        // console.log(result);
                         resolve("eliminado");
                     } else {
                         reject("err");
