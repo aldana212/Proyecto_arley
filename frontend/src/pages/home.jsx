@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 
 
 export function Home() {
-
   
     const [clickLogin, setClickLogin] = useState(false);
     const [clickRegis, setClickRegis] = useState(false);

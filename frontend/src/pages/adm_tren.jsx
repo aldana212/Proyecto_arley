@@ -4,29 +4,41 @@ import { Button, Modal } from 'react-bootstrap';
 import { Header } from '../components/header'
 import { useState, useEffect } from "react";
 import axios from 'axios';
-// import swal from 'sweetalert2'
+import swal from 'sweetalert2'
 // import { useNavigate } from 'react-router-dom';
-// import { toast } from 'react-toastify';
-// import { Spiner } from "../components/Spiner";
+import { toast } from 'react-toastify';
+import { Spiner } from "../components/Spiner";
 
 export function Adm_tren() {
 
     const [values, setValues] = useState({
         aforo: '',
-        hora_salidad: '',
         origen: '',
         destino: '',
         estado: '',
         numero_tren: '',
         cupos: '',
-        fecha_salidad: '',
 
     });
 
+    //utilizo para guardar y cambiar los datos de editar
+    const [RowData, SetRowData] = useState({
+        aforo: '',
+        origen: '',
+        destino: '',
+        estado: '',
+        numero_tren: '',
+        // cupos: '',
+    })
 
+    const [id, setId] = useState("");
+
+    const [isLoding, setisLoding] = useState(true);
+ 
     const [trains, setTrains] = useState([])
 
     useEffect(() => {
+        setisLoding(true)
         getTrains()
     }, [])
 
@@ -34,6 +46,7 @@ export function Adm_tren() {
     const getTrains = async () => {
         const { data } = await axios.get("http://localhost:3009/Trains/GetTrains")
         setTrains(data.result)
+        setisLoding(false)
     }
 
     const handleInput = (event) => {
@@ -46,9 +59,103 @@ export function Adm_tren() {
         });
     }
 
-    const handleForm = (event) => {
+    const handleInputEdit = (event) => {
+        const { name, value } = event.target;
+        console.log(name, value);
+        SetRowData({
+            // reinicia los valores y creo una copia
+            ...RowData,
+            [name]: value,
+        });
+    }
+
+    const handleForm = async (event) => {
         event.preventDefault();
         console.log(values);
+        await axios.post("http://localhost:3009/Trains/PostTrains", values)
+            .then(({ data }) => {
+                console.log(data);
+                toast.success(data.result, {
+                    position: "top-right",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+                getTrains()
+                handleClose()
+            }).catch(err => {
+                toast.error(err.response.data.error, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            })
+    }
+
+    const deleteUsers = async (id) => {
+        console.log(id);
+        swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then( async(result) => {
+          if (result.isConfirmed) {
+            await axios.delete(`http://localhost:3009/Trains/${id}`)
+              .then(e => {
+                swal.fire(
+                  'Deleted!',
+                  'Your file has been deleted.',
+                  'success'
+                )
+                getTrains()
+              })
+          }
+        })
+      }
+
+
+    const handleFormUpdate = async(e) =>{
+       e.preventDefault()
+       axios.put(`http://localhost:3009/Trains/${id}`, RowData)
+       .then((e) => {
+        toast.success(e.data.responde, {
+          position: "top-right",
+          autoClose: 2500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light", 
+        })
+        getTrains()
+        handleClose()
+      }).catch((err) => {
+        toast.error(err.response.data.error, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        console.log(err.response.data.error);
+      })
     }
 
 
@@ -65,6 +172,10 @@ export function Adm_tren() {
         setShow(false)
         setModalShow(false)
     };
+
+    if(isLoding){
+        return <div><Spiner /></div>
+      }
 
     return (
         <>
@@ -103,8 +214,11 @@ export function Adm_tren() {
                                             <td>{trenes.numero_tren}</td>
                                             <td>{trenes.origen}</td>
                                             <td>
-                                                <Button variant="danger" onClick={ShowModelInser1}>
+                                                <Button variant="danger" onClick={() => { ShowModelInser1(SetRowData(trenes), setId(trenes.codigo_servicio)) }}>
                                                     Actualizar
+                                                </Button>
+                                                <Button variant="danger" onClick={() => { deleteUsers(trenes.codigo_servicio) }}>
+                                                    eliminar
                                                 </Button>
                                             </td>
                                         </tr>
@@ -129,9 +243,6 @@ export function Adm_tren() {
                                         <input type="text" name='aforo' onChange={handleInput} value={values.aforo} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter aforo" />
                                     </div>
                                     <div className="form-group">
-                                        <input type="text" name='hora_salidad' onChange={handleInput} value={values.hora_salidad} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter	hora_salidad" />
-                                    </div>
-                                    <div className="form-group">
                                         <input type="text" name='origen' onChange={handleInput} value={values.origen} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter origen" />
                                     </div>
 
@@ -147,9 +258,6 @@ export function Adm_tren() {
                                     <div className="form-group">
                                         <input type="text" name='cupos' onChange={handleInput} value={values.cupos} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter cupos" />
                                     </div>
-                                    <div className="form-group">
-                                        <input type="text" name='fecha_salidad' onChange={handleInput} value={values.fecha_salidad} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter fecha_salidad" />
-                                    </div>
                                     <button type="submit" onClick={handleClose} className="btn btn-success mt-4">Añadir</button>
                                 </form>
                             </Modal.Body>
@@ -163,7 +271,6 @@ export function Adm_tren() {
                         </Modal>
                     </div>
 
-
                     <div classNameName="model_box">
                         <Modal
                             show={show}
@@ -172,19 +279,26 @@ export function Adm_tren() {
                                 <Modal.Title>Edit</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <form>
+                                <form onSubmit={handleFormUpdate}>
                                     <div className="form-group">
-                                        <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name" />
+                                        <input type="text" name='aforo' onChange={handleInputEdit} value={RowData.aforo} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter aforo" />
                                     </div>
-                                    <div className="form-group mt-3">
-                                        <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Country" />
+                                    <div className="form-group">
+                                        <input type="text" name='origen' onChange={handleInputEdit} value={RowData.origen} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter origen" />
                                     </div>
-                                    <div className="form-group mt-3">
-                                        <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter City" />
+
+                                    <div className="form-group">
+                                        <input type="text" name='destino' onChange={handleInputEdit} value={RowData.destino} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter destino" />
                                     </div>
-                                    <div className="form-group mt-3">
-                                        <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Enter Country" />
+                                    <div className="form-group">
+                                        <input type="text" name='estado' onChange={handleInputEdit} value={RowData.estado} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter estado" />
                                     </div>
+                                    <div className="form-group">
+                                        <input type="text" name='numero_tren' onChange={handleInputEdit} value={RowData.numero_tren} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter numero_tren" />
+                                    </div>
+                                    {/* <div className="form-group">
+                                        <input type="text" name='cupos' onChange={handleInput} value={RowData.cupos} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter cupos" />
+                                    </div> */}
 
                                     <button type="submit" className="btn btn-success mt-4">Add Record</button>
                                 </form>

@@ -27,9 +27,12 @@ export function Login({ click, clicked }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        await axios.post("http://localhost:3009/user/login", values)
-            .then(({ data }) => {
-                toast.success(data.responde, {
+        await axios.post("http://localhost:3009/user/login", values, {
+            withCredentials: true,
+        })
+            .then((data) => {
+                console.log(data);
+                toast.success(data, {
                     position: "top-right",
                     autoClose: 2500,
                     hideProgressBar: false,
@@ -39,10 +42,11 @@ export function Login({ click, clicked }) {
                     progress: undefined,
                     theme: "light",
                 });
-                  setTimeout(() => {
-                    navigate('/HomeUser')
-                  }, 3000);
+                setTimeout(() => {
+                    navigate('/AdminUser')
+                }, 3000);
             }).catch(err => {
+                console.log(err);
                 toast.error(err.response.data.error, {
                     position: "top-right",
                     autoClose: 3000,

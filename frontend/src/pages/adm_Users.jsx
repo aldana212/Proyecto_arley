@@ -7,15 +7,57 @@ import swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Spiner } from "../components/Spiner";
+import { useCookies } from 'react-cookie';
 
 export function Adm_Users() {
-
-
-  const [isLoding, setisLoding] = useState(true);
-
-
   //se utilizo para la navegacion
   const navigate = useNavigate();
+
+  const [cookies, setCookie, removeCookie] = useCookies([])
+
+  useEffect(() => {
+    const veryToken = async () => {
+      console.log("estas son mis " + cookies.jwt)
+      if (!cookies.jwt) {
+        console.log("cookiesss " + cookies.jwt)
+        toast.error("error")
+        navigate("/")
+      } else {
+        const data = await axios.get(
+          'http://localhost:3009/user/Admin',
+          {
+            withCredentials: true,
+          })
+          console.log("");
+        if (!data.status) {
+          removeCookie('jwt')
+          navigate("/")
+        } else {
+          toast.success("res.data.responde" + '👌', {
+            position: "top-right",
+            autoClose: 2500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      }
+    }
+
+    veryToken()
+
+  }, [cookies, navigate])
+
+
+  const logOut = () => {
+    removeCookie('jwt')
+    navigate("/")
+  }
+
+  const [isLoding, setisLoding] = useState(true);
 
   //  utilizo para obtener los datos de la base de datos users y cambiar el estado
   const [users, setUsers] = useState([])
@@ -46,7 +88,7 @@ export function Adm_Users() {
   //utilice para darle efecto al momento de renderizar los Users
   useEffect(() => {
     setisLoding(true);
-      getUsers()
+    getUsers()
   }, [])
 
 
@@ -113,7 +155,7 @@ export function Adm_Users() {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "light", 
+          theme: "light",
         })
         getUsers()
         handleClose()
@@ -137,6 +179,7 @@ export function Adm_Users() {
     e.preventDefault()
     await axios.post('http://localhost:3009/user/CreateUsers', values)
       .then(res => {
+        console.log(res)
         toast.success(res.data.responde + '👌', {
           position: "top-right",
           autoClose: 2500,
@@ -186,13 +229,13 @@ export function Adm_Users() {
     setModalShow(false)
   };
 
-  if(isLoding){
+  if (isLoding) {
     return <div><Spiner /></div>
   }
 
   return (
     <>
-      <Header />
+      <Header logOut={logOut}/>
       <div className="container">
         <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded ">
           <div className="row ">
@@ -200,6 +243,9 @@ export function Adm_Users() {
             <div className="col-sm-3 offset-sm-1 mt-5 ">
               <Button className="btn-primary" onClick={ShowModelInser}>
                 Add New Student
+              </Button>
+              <Button className="btn-primary">
+                verify
               </Button>
             </div>
           </div>
