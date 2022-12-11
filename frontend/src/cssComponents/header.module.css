@@ -40,6 +40,7 @@
 
 .navbar{
     display: flex;
+    align-items: center;
 }
 
 .navbar a{
@@ -51,35 +52,25 @@
     text-decoration: none;
 }
 
-.navbar button{
-    padding: 8px  17px;
-    color: #fff;
-    font-size: 1rem;
-    text-transform: uppercase;
-    font-weight: 500;
-    margin-left: 20px;
-}
-
 .navbar a:hover{
     color: rgb(255, 0, 0);
 }
 
-.btn{
-    padding: 8px 22px;
-    background-color: rgba(255, 0, 0, 0.829);
-    color: #fff;
-    border-radius: 5rem;
-    border: none;
-
+.imgUser{
+    border-radius: 150px;
+    width: 70px;
+    height: 70px;
+    margin-left: 40px;
+    border: 2px dashed #000000;
 }
 
+.imgUser:hover{
+    cursor: pointer;
+}
 
 .user{
+    width: 135px;
+    height: 40px;
     border: 2px solid #2196f3;
     border-radius: 15px;
-   /* border-bottom: 2px solid #fff; */
-}
-
-.btn:hover{
-    background-color:  rgb(255, 60, 0);
 }
