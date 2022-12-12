@@ -51,6 +51,8 @@ export function Adm_Users() {
     getUsers()
   }, [])
 
+  const [avatar, setAvatar] = useState([])
+
   const veryToken = async () => {
     if (!cookies.jwt) {
       toast.error("error")
@@ -61,9 +63,23 @@ export function Adm_Users() {
         {
           withCredentials: true,
         })
+      const Avatar = data.data.url_image
+      setAvatar(Avatar);
       if (!data.status) {
         removeCookie('jwt')
         navigate("/")
+      } else if (data.data.id_rol1 === 2) {
+        navigate('/')
+        toast.error("kakak", {
+          position: "top-right",
+          autoClose: 2500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       } else {
         toast.success(`Bienvenido ${data.data.name}`, {
           position: "top-right",
@@ -250,7 +266,7 @@ export function Adm_Users() {
 
   return (
     <>
-      <Header logOut={logOut} />
+      <Header logOut={logOut} Avatar={avatar} />
       <div className="container">
         <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded ">
           <div className="row ">
@@ -277,7 +293,7 @@ export function Adm_Users() {
                   {users.map((user) => (
                     <tr key={user.cedula}>
                       <td> {user.cedula} </td>
-                      <td ><img src={user.url_image} style={{ height: '70px', width: '70px', marginRight: '10px' }} />{ user.name }</td>
+                      <td ><img src={user.url_image} style={{ height: '70px', width: '70px', marginRight: '10px' }} />{user.name}</td>
                       <td> {user.mail} </td>
                       <td> {user.id_rol1} </td>
                       <td>
@@ -292,19 +308,19 @@ export function Adm_Users() {
             </div>
           </div>
 
-          <CreateUserFormAd modalShow={modalShow} 
-          handleClose={handleClose} 
-          handleForm={handleForm} 
-          handleInputInsert={handleInputInsert}
-          values={values}
-          /> 
+          <CreateUserFormAd modalShow={modalShow}
+            handleClose={handleClose}
+            handleForm={handleForm}
+            handleInputInsert={handleInputInsert}
+            values={values}
+          />
           <EditUserFormAd show={show}
-          handleClose={handleClose}
-          handleFormUpdate={handleFormUpdate}
-          handleProductImageUpload={handleProductImageUpload}
-          handleInputEdit={handleInputEdit}
-          RowData={RowData}
-          productImg={productImg}
+            handleClose={handleClose}
+            handleFormUpdate={handleFormUpdate}
+            handleProductImageUpload={handleProductImageUpload}
+            handleInputEdit={handleInputEdit}
+            RowData={RowData}
+            productImg={productImg}
           />
         </div>
       </div>

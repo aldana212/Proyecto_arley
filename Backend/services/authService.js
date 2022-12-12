@@ -43,16 +43,15 @@ class auth_Users {
                     if (results.length == 0 || !(await matchPass(contraseña, user.contraseña))) {
                         reject("El correo o la Contraseña no coinciden!!")
                     } else {
-
                         const cedula1 = results[0].cedula
-                        console.log(cedula);
                         const name1 = results[0].name
                         const mail1 = results[0].mail
                         const url_image = results[0].url_image
                         const token = await CreateToken(cedula1, name1, mail1 , url_image)
                         resolve({
                             message: "session",
-                            token
+                            token, 
+                            user
                         })
                         return token;
                     }

@@ -16,7 +16,7 @@ export function Home_Users() {
     const navigate = useNavigate();
 
     const [cards, setCards] = useState([])
-
+    const [avatar, setAvatar] = useState([])
     const [cupos, setCupos] = useState('')
     const [codigo, setCodigo] = useState('')
     const [cedula, setCedula] = useState('')
@@ -47,8 +47,8 @@ export function Home_Users() {
     const [cookies, setCookie, removeCookie] = useCookies([])
 
     useEffect(() => {
-        getCards()
         veryToken()
+        getCards()
     }, [])
 
     const veryToken = async () => {
@@ -61,12 +61,27 @@ export function Home_Users() {
                 {
                     withCredentials: true,
                 })
+                console.log(data);
+            const Avatar = data.data.url_image
             const cedula = data.data.cedula
+            setAvatar(Avatar);
             setCedula(cedula);
             if (!data.status) {
                 removeCookie('jwt')
                 navigate("/")
-            } else {
+            } else if(data.data.id_rol1 === 1){
+                navigate('/')
+                toast.error("kakak", {
+                    position: "top-right",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }else{
                 toast.success(`Bienvenido ${data.data.name}`, {
                     position: "top-right",
                     autoClose: 2500,
@@ -106,7 +121,7 @@ export function Home_Users() {
 
     return (
         <div>
-            <Header logOut={logOut} />
+            <Header logOut={logOut} Avatar={avatar} />
             <div className="container shadow-lg p-3 bg-body rounded d-flex justify-content-center align-items-center ">
                 <div class='row m-4'>
                     {cards.map((card) => (

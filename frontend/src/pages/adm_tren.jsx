@@ -25,6 +25,8 @@ export function Adm_tren() {
 
     });
 
+    const [avatar, setAvatar] = useState([])
+
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies([])
 
@@ -62,9 +64,23 @@ export function Adm_tren() {
                 {
                     withCredentials: true,
                 })
+            const Avatar = data.data.url_image
+            setAvatar(Avatar);
             if (!data.status) {
                 removeCookie('jwt')
                 navigate("/")
+            } else if (data.data.id_rol1 === 2) {
+                navigate('/')
+                toast.error("kakak", {
+                    position: "top-right",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
             } else {
                 toast.success(`Bienvenido ${data.data.name}`, {
                     position: "top-right",
@@ -226,7 +242,7 @@ export function Adm_tren() {
 
     return (
         <>
-            <Header logOut={logOut} />
+            <Header logOut={logOut} Avatar={avatar} />
             <div className="container">
                 <div className="crud shadow-lg p-3  bg-body rounded mt-5">
                     <div className="row ">
@@ -247,8 +263,8 @@ export function Adm_tren() {
                                         <th>aforo</th>
                                         <th>destino</th>
                                         <th>origen</th>
-                                        <th>precio</th> 
-                                        <th>Estado</th> 
+                                        <th>precio</th>
+                                        <th>Estado</th>
                                         <th>numero_tren</th>
                                         <th>Actions</th>
                                     </tr>
@@ -268,7 +284,7 @@ export function Adm_tren() {
                                                 <Button variant="danger" onClick={() => { ShowModelInser1(SetRowData(trenes), setId(trenes.codigo_servicio)) }}>
                                                     Actualizar
                                                 </Button>
-                                                <Button variant="danger" onClick={() => { deleteUsers(trenes.codigo_servicio)}}>
+                                                <Button variant="danger" onClick={() => { deleteUsers(trenes.codigo_servicio) }}>
                                                     eliminar
                                                 </Button>
                                             </td>
@@ -280,16 +296,16 @@ export function Adm_tren() {
                         </div>
                     </div>
                     <CreateTrainsFormAd modalShow={modalShow}
-                    handleClose={handleClose}
-                    handleForm={handleForm}
-                    handleInput={handleInput}
-                    values={values}
+                        handleClose={handleClose}
+                        handleForm={handleForm}
+                        handleInput={handleInput}
+                        values={values}
                     />
                     <EditTrainsFormAd show={show}
-                    handleClose={handleClose}
-                    handleFormUpdate={handleFormUpdate}
-                    handleInputEdit={handleInputEdit}
-                    RowData={RowData}
+                        handleClose={handleClose}
+                        handleFormUpdate={handleFormUpdate}
+                        handleInputEdit={handleInputEdit}
+                        RowData={RowData}
                     />
                 </div>
             </div>

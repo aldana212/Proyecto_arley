@@ -42,7 +42,7 @@
 }
 
 .navbar a{
-    padding: 8px 17px;
+    padding: 8px 29px;
     color: #fff;
     font-size: 1rem;
     text-transform: uppercase;
@@ -66,6 +66,16 @@
     cursor: pointer;
 }
 
+.btn{
+    padding: 8px 22px;
+    background-color: rgba(255, 0, 0, 0.829);
+    color: #fff;
+    border-radius: 5rem;
+    border: none;
+
+}
+
+
 .user{
     border: 2px solid #2196f3;
     border-radius: 15px;
@@ -75,4 +85,3 @@
 .btn:hover{
     background-color:  rgb(255, 60, 0);
 }
-

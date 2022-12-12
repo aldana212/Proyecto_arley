@@ -30,18 +30,22 @@ export function Login({ click, clicked }) {
             withCredentials: true,
         })
             .then(({data}) => {
-                console.log(data);
-                toast.success(data, {
-                    position: "top-right",
-                    autoClose: 2500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
+                console.log(data.data.user.id_rol1);
+                if(data.data.user.id_rol1 == 1){
                     navigate('/AdminUser')
+                }else if(data.data.user.id_rol1 == 2){
+                    navigate('/HomeUsers')
+                }
+                // toast.success("data.message", {
+                //     position: "top-right",
+                //     autoClose: 2500,
+                //     hideProgressBar: false,
+                //     closeOnClick: true,
+                //     pauseOnHover: true,
+                //     draggable: true,
+                //     progress: undefined,
+                //     theme: "light",
+                // });
             }).catch(err => {
                 console.log(err);
                 toast.error(err.response.data.error, {

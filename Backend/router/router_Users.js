@@ -14,6 +14,7 @@ router.post('/login', controller.UserLogin);
 router.post('/CreateUsers', controller.PostUsers);
 router.delete('/:cedula', controller.DeleteUsers)
 router.put("/:cedula" , controller.PutUsers)
+router.put("/:cedula" , controller.PutUser)
 
 
 module.exports = router;

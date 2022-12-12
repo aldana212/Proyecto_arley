@@ -72,7 +72,7 @@ class UserController {
                 let token = responde.token;
                 res.cookie("jwt", token, { httpOnly: false, expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000) })
                     .json({
-                        status: 201, data: "responde"
+                        status: 201, data: responde
                     })
             }).catch(error => {
                 res.status(500).json({ status: 500, error: "error" })
