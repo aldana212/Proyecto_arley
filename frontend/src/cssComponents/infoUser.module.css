@@ -1,0 +1,145 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.seccionPerfilUsuario .perfilUsuarioBody,
+.seccionPerfilUsuario {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+}
+
+.seccionPerfilUsuario .perfilUsuarioPortada {
+    display: block;
+    position: relative;
+    width: 90%;
+    height: 6rem;
+    margin-bottom: 20px;
+}
+
+.seccionPerfilUsuario .perfilUsuarioAvatar {
+    display: flex;
+    width: 180px;
+    height: 180px;
+    align-items: center;
+    justify-content: center;
+    border: 7px solid #FFFFFF;
+    background-color: #DFE5F2;
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(0, 0, 0, .2);
+    position: absolute;
+    bottom: -40px;
+    left: calc(50% - 90px);
+    z-index: 1;
+}
+
+.seccionPerfilUsuario .perfilUsuarioAvatar img {
+    width: 100%;
+    position: relative;
+    border-radius: 50%;
+}
+
+.seccionPerfilUsuario .perfilUsuarioBody {
+    width: 70%;
+    position: relative;
+    max-width: 750px;
+}
+
+.seccionPerfilUsuario .perfilUsuarioBody .titulo {
+    display: block;
+    width: 100%;
+    font-size: 1.75em;
+    margin-bottom: 0.5rem;
+}
+
+.seccionPerfilUsuario .perfilUsuarioBody .texto {
+    color: #848484;
+    font-size: 0.95em;
+}
+
+.seccionPerfilUsuario .perfilUsuarioFooter,
+.seccionPerfilUsuario .perfilUsuarioBio {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 0 12px rgba(0, 0, 0, .2);
+    background-color: #fff;
+    border-radius: 15px;
+    width: 100%;
+}
+
+.seccionPerfilUsuario .perfilUsuarioBio {
+    margin-bottom: 1.25rem;
+    text-align: center;
+}
+
+.seccionPerfilUsuario .listaDatos {
+    width: 50%;
+    list-style: none;
+}
+
+.seccionPerfilUsuario .listaDatos li {
+    padding: 5px 0;
+}
+
+.seccionPerfilUsuario .listaDatos li>.icono {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+    vertical-align: middle;
+}
+
+.btnUpdate {
+    margin-top: 30px;
+  background-color: #3DD1E7;
+  border: 0 solid #E5E7EB;
+  box-sizing: border-box;
+  color: #000000;
+  display: flex;
+  font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 1rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1.75rem;
+  padding: .75rem 1.65rem;
+  position: relative;
+  text-align: center;
+  text-decoration: none #000000 solid;
+  text-decoration-thickness: auto;
+  width: 100%;
+  max-width: 460px;
+  position: relative;
+  cursor: pointer;
+  transform: rotate(-2deg);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.btnUpdate:focus {
+  outline: 0;
+}
+
+.btnUpdate:after {
+  content: '';
+  position: absolute;
+  border: 1px solid #fff;
+  bottom: 4px;
+  left: 4px;
+  width: calc(100% - 1px);
+  height: calc(100% - 1px);
+}
+
+.btnUpdate:hover:after {
+  bottom: 2px;
+  left: 2px;
+}
+
+@media (min-width: 768px) {
+  .btnUpdate {
+    padding: .75rem 3rem;
+    font-size: 1.25rem;
+  }
+}
