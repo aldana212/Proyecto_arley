@@ -26,9 +26,12 @@ export function Home_Users() {
 
     const handleReservar = async (e) => {
         e.preventDefault();
-        console.log("hola")
         const datos = { cupos, codigo, cedula }
-        await axios.post('http://localhost:3009/Trains/PostReserva', datos)
+        console.log(datos.cupos);
+        if(datos.cupos == ''){
+            toast.error("tienes que digitar los cupos")
+        }else{
+            await axios.post('http://localhost:3009/Trains/PostReserva', datos)
             .then(({ data }) => {
                 toast.success(data.responde, {
                     position: "top-right",
@@ -43,8 +46,18 @@ export function Home_Users() {
                 setCupos("")
                 handleClose()
             }).catch((err) => {
-                console.log(err);
+                toast.error(err.response.data.err, {
+                    position: "top-right",
+                    autoClose: 2500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
             })
+        }
     }
 
     const [cookies, setCookie, removeCookie] = useCookies([])
@@ -106,7 +119,7 @@ export function Home_Users() {
 
     const getCards = async () => {
         const { data } = await axios.get("http://localhost:3009/Trains/GetTrains")
-        console.log(data)
+        console.log(data.result)
         setCards(data.result)
     }
 
@@ -131,13 +144,19 @@ export function Home_Users() {
                         <div className='col-sm-12 col-md-4 col-lg-4 py-3 ml-5'>
                             <Card style={{ width: '18rem' }} className='card shadow-lg '>
                                 <div>
-                                    <Card.Img src={img}></Card.Img>
+                                    <Card.Img src={card.url_image}></Card.Img>
                                     <Card.Body>
                                         <ListGroup className="list-group-flush">
                                             <ListGroup.Item>Origen:  {card.origen}</ListGroup.Item>
                                             <ListGroup.Item>Destino:  {card.destino}</ListGroup.Item>
                                             <ListGroup.Item>Hora Salidad:  {card.hora_salidad}</ListGroup.Item>
                                             <ListGroup.Item>Precio:  {card.precio}</ListGroup.Item>
+                                            {
+                                            card.aforo == 12 ?
+                                            <>
+                                            <ListGroup.Item>Cupos Disponibles:  {card.aforo}</ListGroup.Item>                                            
+                                            </> : <>error</>
+                                            }
                                         </ListGroup>
                                         <Button className='btn-primary mt-3' onClick={() => ShowModelInser1(setCodigo(card.codigo_servicio))}>Reservar</Button>
                                     </Card.Body>

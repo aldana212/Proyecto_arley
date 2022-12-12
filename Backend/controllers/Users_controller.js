@@ -3,29 +3,27 @@ const services = new servi_User();
 const auth_servi = require('../services/authService.js')
 const auth = new auth_servi();
 const Joi = require('@hapi/joi');
-const { serialize } = require('cookie');
-const { image } = require('../util/cloudinary.js');
 
 
 const validateRegister = Joi.object({
-    cedula: Joi.number().max(10).required(),
+    image: Joi.string(),
+    cedula: Joi.number().required(),
     name: Joi.string().min(3).max(255).required(),
     mail: Joi.string().min(3).max(255).lowercase().required().email(),
     contraseña: Joi.string().min(3).max(255).required(),
 })
 
 const validateLogin = Joi.object({
-    cedula: Joi.number().max(10).required(),
+    cedula: Joi.number().required(),
     contraseña: Joi.string().min(3).max(255).required(),
 })
 
-// const validateCreate = Joi.object({
-//     cedula: Joi.number().max(10).required(),
-//     name: Joi.string().min(3).max(255).required(),
-//     mail: Joi.string().min(3).max(255).lowercase().required().email(),
-//     contraseña: Joi.string().min(3).max(255).required(),
-//     id_rol1: Joi.number().required(),
-// })
+const validateCreate = Joi.object({
+    cedula: Joi.number().required(),
+    name: Joi.string().min(3).max(255).required(),
+    mail: Joi.string().min(3).max(255).lowercase().required().email(),
+    contraseña: Joi.string().min(3).max(255).required(),
+})
 
 class UserController {
 
@@ -41,7 +39,6 @@ class UserController {
             console.log("error.." + error)
         }
     }
-
     // async GetUserId(req, res) {
     //     try {
     //         const cedula = req.params.cedula
@@ -80,8 +77,7 @@ class UserController {
         } catch (error) {
             console.log("erorr...");
         }
-    }
-
+   }
     async UserRegistre(req, res) {
         //validate data user
         const { values } = req.body
@@ -92,7 +88,6 @@ class UserController {
             )
         }
         try {
-            const data = req.body;
             const { values } = req.body
             const { image } = req.body
             const agregar = auth.Users_register(values, image);
@@ -106,7 +101,7 @@ class UserController {
         }
     }
     async PostUsers(req, res) {
-        const { error } = validateRegister.validate(req.body)
+        const { error } = validateCreate.validate(req.body)
         if (error) {
             return res.status(400).json(
                 { error: error.details[0].message }
@@ -125,7 +120,6 @@ class UserController {
         }
 
     }
-
     async DeleteUsers(req, res) {
         const data = req.params.cedula
         const remove = services.DeleteUser(data)
@@ -135,7 +129,6 @@ class UserController {
             res.status(500).json({ status: "Failded", data: error })
         })
     }
-
     async PutUsers(req, res) {
         const cedula = req.params.cedula
         const { RowData } = req.body

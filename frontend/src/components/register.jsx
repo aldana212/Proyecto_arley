@@ -53,7 +53,6 @@ export function Register({ click1, clicked1 }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const dataNueva = { values, image: productImg }
-    console.log(dataNueva);
     await axios.post('http://localhost:3009/user/register', dataNueva)
       .then(({ data }) => {
         console.log(data);
@@ -68,6 +67,7 @@ export function Register({ click1, clicked1 }) {
           theme: "light",
         });
         clicked1(false)
+        setValues('')
       }).catch(err => {
         console.log(err);
         toast.error(err.response.data.error, {

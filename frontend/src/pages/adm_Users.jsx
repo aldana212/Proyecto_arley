@@ -95,7 +95,6 @@ export function Adm_Users() {
     }
   }
 
-
   const logOut = () => {
     removeCookie('jwt')
     navigate("/")

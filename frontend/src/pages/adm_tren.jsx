@@ -54,6 +54,27 @@ export function Adm_tren() {
 
     }, [])
 
+
+    const [productImg, setProductImg] = useState("");
+    const handleProductImageUpload = (e) => {
+      const file = e.target.files[0];
+      TransformFileData(file);
+    };
+  
+    const TransformFileData = (file) => {
+      const reader = new FileReader();
+      if (file) {
+        // readAsDataURL es usado para leer el contenido del especificado Blob o File.
+        reader.readAsDataURL(file);
+        // onLoadEnd se utiliza para llamar a una función cuando las cargas de imagen de la red se realizan correctamente o fallan. 
+        reader.onloadend = () => {
+          setProductImg(reader.result);
+        };
+      } else {
+        setProductImg("");
+      }
+    };
+
     const veryToken = async () => {
         if (!cookies.jwt) {
             toast.error("error")
@@ -127,11 +148,13 @@ export function Adm_tren() {
         });
     }
 
-    const handleForm = async (event) => {
-        event.preventDefault();
-        console.log(values);
-        await axios.post("http://localhost:3009/Trains/PostTrains", values)
+    const handleForm = async (e) => {
+        e.preventDefault()
+        const dataNueva = { values , image: productImg }
+        console.log(dataNueva);
+        await axios.post("http://localhost:3009/Trains/PostTrains", dataNueva)
             .then(({ data }) => {
+                console.log("hola");
                 toast.success(data.result, {
                     position: "top-right",
                     autoClose: 2500,
@@ -144,7 +167,6 @@ export function Adm_tren() {
                 });
                 getTrains()
                 handleClose()
-
                 setValues({
                     aforo: '',
                     origen: '',
@@ -194,8 +216,8 @@ export function Adm_tren() {
 
     const handleFormUpdate = async (e) => {
         e.preventDefault()
-        console.log(RowData);
-        axios.put(`http://localhost:3009/Trains/${id}`, RowData)
+        const dataNueva = { RowData, image: productImg }
+        axios.put(`http://localhost:3009/Trains/${id}`, dataNueva)
             .then((e) => {
                 toast.success(e.data.responde, {
                     position: "top-right",
@@ -255,10 +277,11 @@ export function Adm_tren() {
                     </div>
                     <div className="row">
                         <div className="table-responsive " >
-                            <table className="table table-striped table-hover table-bordered">
+                            <table className="table table-striped table-hover table-bordered ">
                                 <thead>
                                     <tr>
                                         <th>codigo_servicio</th>
+                                        <th>Imagen</th>
                                         <th>hora_salidad </th>
                                         <th>aforo</th>
                                         <th>destino</th>
@@ -273,6 +296,7 @@ export function Adm_tren() {
                                     {trains.map((trenes) => (
                                         <tr key={trenes.codigo_servicio}>
                                             <td> {trenes.codigo_servicio} </td>
+                                            <td><img src={trenes.url_image} style={{ height: '70px', width: '70px', marginLeft: '20px' }} /></td>
                                             <td>{trenes.hora_salidad}</td>
                                             <td>{trenes.aforo}</td>
                                             <td>{trenes.destino}</td>
@@ -284,9 +308,9 @@ export function Adm_tren() {
                                                 <Button variant="danger" onClick={() => { ShowModelInser1(SetRowData(trenes), setId(trenes.codigo_servicio)) }}>
                                                     Actualizar
                                                 </Button>
-                                                <Button variant="danger" onClick={() => { deleteUsers(trenes.codigo_servicio) }}>
+                                                {/* <Button variant="danger" onClick={() => { deleteUsers(trenes.codigo_servicio) }}>
                                                     eliminar
-                                                </Button>
+                                                </Button> */}
                                             </td>
                                         </tr>
                                     ))}
@@ -298,14 +322,19 @@ export function Adm_tren() {
                     <CreateTrainsFormAd modalShow={modalShow}
                         handleClose={handleClose}
                         handleForm={handleForm}
+                        handleProductImageUpload={handleProductImageUpload}
                         handleInput={handleInput}
+                        productImg={productImg}
                         values={values}
+                        RowData={RowData}
                     />
                     <EditTrainsFormAd show={show}
                         handleClose={handleClose}
                         handleFormUpdate={handleFormUpdate}
                         handleInputEdit={handleInputEdit}
                         RowData={RowData}
+                        handleProductImageUpload={handleProductImageUpload}
+                        productImg={productImg}
                     />
                 </div>
             </div>

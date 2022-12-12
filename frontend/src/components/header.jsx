@@ -12,8 +12,8 @@ export function Header({ logOut, Avatar }) {
               <Link to='/' href="" className={Style.logo}><i className='bx bxs-train'></i>Train Station</Link>
               <div className={Style.navbar}>
               <Link to='/' className={Style.user} onClick={logOut}><i class='bx bxs-user'></i>Cerrar</Link>
-              <button className={Style.btn}><i class='bx bxs-user' ></i> My acount</button>
-              <img className={Style.imgUser} src={Avatar} alt="Image User" />
+              <Link to='/InfoUser' className={Style.btn}><i class='bx bxs-user' ></i> My acount</Link>
+              <Link to='/InfoUser'><img className={Style.imgUser} src={Avatar} alt="Image User" /></Link>
               </div>
           </div>
     </header>

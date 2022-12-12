@@ -38,7 +38,6 @@ class servi_User {
     CreateUsers(data) {
         try {
             return new Promise(async (resolve, reject) => {
-                console.log(data);
                 const { cedula, name, mail, contraseña } = data;
                 const contraseña_hash = await encryptPass(contraseña)
                 const nueva_data = { cedula, name, mail, contraseña: contraseña_hash }
@@ -48,7 +47,7 @@ class servi_User {
                     } else {
                         conexion.query("INSERT INTO usuario(cedula, name,mail, contraseña) VALUES(?, ? ,? , ?)",
                             [nueva_data.cedula, nueva_data.name, nueva_data.mail, nueva_data.contraseña])
-                        resolve("todo bien")
+                        resolve("Usuario Creado Correctamente")
                     }
                 })
             })
@@ -105,13 +104,11 @@ class servi_User {
     }
 
     DeleteUser(data) {
-        console.log("hola" + data);
         try {
             // const {cedula } = data
             return new Promise((resolve, reject) => {
                 conexion.query("DELETE FROM usuario WHERE cedula = ? ", [data], (err, result) => {
                     if (result) {
-                        console.log(result);
                         resolve("eliminado");
                     } else {
                         reject("err");
