@@ -12,7 +12,7 @@ const verifyToken = async (req, res, next) => {
             message: "error de autenticacion"
           })
         } else {
-          conexion.query('SELECT * FROM usuario WHERE mail = ?', [decoded.mail], (error, result) => {
+          conexion.query('SELECT * FROM usuario WHERE cedula = ?', [decoded.cedula], (error, result) => {
             if (!result) {
               res.json({
                 status: false,

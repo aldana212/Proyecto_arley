@@ -8,8 +8,38 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Spiner } from "../components/Spiner";
 import { useCookies } from 'react-cookie';
+import { CreateUserFormAd, EditUserFormAd } from "../components/UserFormAd";
 
 export function Adm_Users() {
+
+  const [productImg, setProductImg] = useState("");
+  const handleProductImageUpload = (e) => {
+    const file = e.target.files[0];
+    TransformFileData(file);
+  };
+
+  const TransformFileData = (file) => {
+    const reader = new FileReader();
+    if (file) {
+      // readAsDataURL es usado para leer el contenido del especificado Blob o File.
+      reader.readAsDataURL(file);
+      // onLoadEnd se utiliza para llamar a una función cuando las cargas de imagen de la red se realizan correctamente o fallan. 
+      reader.onloadend = () => {
+        setProductImg(reader.result);
+      };
+    } else {
+      setProductImg("");
+    }
+  };
+
+  const handleInputEdit = (e) => {
+    const { name, value } = e.target
+    SetRowData({
+      ...RowData,
+      [name]: value,
+    })
+  }
+
   //se utilizo para la navegacion
   const navigate = useNavigate();
 
@@ -35,7 +65,6 @@ export function Adm_Users() {
         removeCookie('jwt')
         navigate("/")
       } else {
-        console.log(data);
         toast.success(`Bienvenido ${data.data.name}`, {
           position: "top-right",
           autoClose: 2500,
@@ -84,8 +113,6 @@ export function Adm_Users() {
   const [modalShow, setModalShow] = useState(false);
   const [show, setShow] = useState(false);
 
-
-
   //funcion para traer todos los Users
   const getUsers = async () => {
     const { data } = await axios.get('http://localhost:3009/user/Users/')
@@ -129,19 +156,11 @@ export function Adm_Users() {
     })
   }
 
-  const handleInputEdit = (e) => {
-    const { name, value } = e.target
-    SetRowData({
-      ...RowData,
-      [name]: value,
-    })
-  }
-
   //funcion para update un Users
   const handleFormUpdate = async (e) => {
     e.preventDefault();
-
-    await axios.put(`http://localhost:3009/user/${id}`, RowData)
+    const dataNueva = { RowData, image: productImg }
+    await axios.put(`http://localhost:3009/user/${id}`, dataNueva)
       .then((e) => {
         console.log(e)
         toast.success(e.data.responde, {
@@ -174,9 +193,10 @@ export function Adm_Users() {
   //funcion para crear un users
   const handleForm = async (e) => {
     e.preventDefault()
+    console.log(values);
     await axios.post('http://localhost:3009/user/CreateUsers', values)
       .then(res => {
-        console.log(res)
+        console.log("res")
         toast.success(res.data.responde + '👌', {
           position: "top-right",
           autoClose: 2500,
@@ -187,11 +207,9 @@ export function Adm_Users() {
           progress: undefined,
           theme: "light",
         });
-
         navigate('/AdminUser')
         getUsers()
         handleClose()
-
         setValues({
           cedula: '',
           name: '',
@@ -200,7 +218,7 @@ export function Adm_Users() {
         })
 
       }).catch(err => {
-        console.log(err);
+        console.log("err");
         toast.error(err.response.data.error, {
           position: "top-right",
           autoClose: 3000,
@@ -213,7 +231,6 @@ export function Adm_Users() {
         });
       })
   }
-
   //funcion para mostrar las modal
   const ShowModelInser = () => setModalShow(true);
   const ShowModelInser1 = () => {
@@ -224,6 +241,7 @@ export function Adm_Users() {
   const handleClose = () => {
     setShow(false)
     setModalShow(false)
+    setProductImg("");
   };
 
   if (isLoding) {
@@ -259,7 +277,7 @@ export function Adm_Users() {
                   {users.map((user) => (
                     <tr key={user.cedula}>
                       <td> {user.cedula} </td>
-                      <td> {user.name} </td>
+                      <td ><img src={user.url_image} style={{ height: '70px', width: '70px', marginRight: '10px' }} />{ user.name }</td>
                       <td> {user.mail} </td>
                       <td> {user.id_rol1} </td>
                       <td>
@@ -274,92 +292,22 @@ export function Adm_Users() {
             </div>
           </div>
 
-          <div className="model_box">
-            <Modal
-              show={modalShow}
-              className="mt-5"
-            >
-              <Modal.Header closeButton onClick={handleClose}>
-                <Modal.Title>Add Record</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <form onSubmit={handleForm}>
-
-                  <div className="form-group">
-                    <input type="text" name='cedula' onChange={handleInputInsert} value={values.cedula} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Cedula" />
-                  </div>
-                  <div className="form-group mt-3">
-                    <input type="text" name='name' onChange={handleInputInsert} value={values.name} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name" />
-                  </div>
-                  <div className="form-group mt-3">
-                    <input type="email" name='mail' onChange={handleInputInsert} value={values.mail} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email" />
-                  </div>
-                  <div className="form-group mt-3">
-                    <input type="password" name='contraseña' onChange={handleInputInsert} value={values.contraseña} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter City" />
-                  </div>
-                  {/* <div className="form-group mt-3">
-                          <input type="text" name="id_rol1" onChange={handleInput} value={values.id_rol1} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter City"/>
-                          <select class="form-select" aria-label="Default select example">
-                                <option selected value="1" name="id_rol1">administrador</option>
-                                <option value="2" name="id_rol1">usuario</option>
-                                <option value="3" name="id_rol1">empleado</option>
-                          </select>
-                          </div> */}
-                  <button type="submit" className="btn btn-primary mt-4">Añadir</button>
-                </form>
-              </Modal.Body>
-
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                  Close
-                </Button>
-
-              </Modal.Footer>
-            </Modal>
-          </div>
-
-          <div classNameName="model_box">
-            <Modal
-              show={show}
-            >
-              <Modal.Header closeButton onClick={handleClose}>
-                <Modal.Title>Edit</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <form onSubmit={handleFormUpdate}>
-                  <div className="form-group">
-                    <input type="hidden" name='cedula' value={RowData.cedula} onChange={handleInputEdit} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Cedula" />
-                  </div>
-                  <div className="form-group mt-3">
-                    <input type="text" name='name' value={RowData.name} onChange={handleInputEdit} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name" />
-                  </div>
-                  <div className="form-group mt-3">
-                    <input type="mail" name='mail' value={RowData.mail} onChange={handleInputEdit} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email" />
-                  </div>
-                  {/* <div className="form-group mt-3">
-                                  <select class="form-select" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                  </select>
-                                  </div> */}
-                  <button type="submit" className="btn btn-primary mt-4">Add Record</button>
-                </form>
-              </Modal.Body>
-
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                  Close
-                </Button>
-
-              </Modal.Footer>
-            </Modal>
-
-          </div>
+          <CreateUserFormAd modalShow={modalShow} 
+          handleClose={handleClose} 
+          handleForm={handleForm} 
+          handleInputInsert={handleInputInsert}
+          values={values}
+          /> 
+          <EditUserFormAd show={show}
+          handleClose={handleClose}
+          handleFormUpdate={handleFormUpdate}
+          handleProductImageUpload={handleProductImageUpload}
+          handleInputEdit={handleInputEdit}
+          RowData={RowData}
+          productImg={productImg}
+          />
         </div>
       </div>
-
     </>
   )
 }

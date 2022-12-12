@@ -3,7 +3,8 @@ const services = new servi_User();
 const auth_servi = require('../services/authService.js')
 const auth = new auth_servi();
 const Joi = require('@hapi/joi');
-const { serialize } = require('cookie')
+const { serialize } = require('cookie');
+const { image } = require('../util/cloudinary.js');
 
 
 const validateRegister = Joi.object({
@@ -32,7 +33,7 @@ class UserController {
         try {
             const show = services.Users_Admin()
             show.then(responde => {
-                res.status(201).json({ status: "OK", data: responde});
+                res.status(201).json({ status: "OK", data: responde });
             }).catch(error => {
                 res.status(500).json({ status: "FAILDED", data: error });
             })
@@ -57,8 +58,7 @@ class UserController {
     //         console.log("error.." + error)
     //     }
     // }
-
-    async UserLogin(req, res){
+    async UserLogin(req, res) {
         const { error } = validateLogin.validate(req.body)
         if (error) {
             return res.status(400).json(
@@ -71,11 +71,11 @@ class UserController {
             validar.then(responde => {
                 let token = responde.token;
                 res.cookie("jwt", token, { httpOnly: false, expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000) })
-                .json({
-                    status: 201, data: "responde"
-                })
+                    .json({
+                        status: 201, data: "responde"
+                    })
             }).catch(error => {
-                res.status(500).json({ status: 500, error:"error" })
+                res.status(500).json({ status: 500, error: "error" })
             })
         } catch (error) {
             console.log("erorr...");
@@ -84,7 +84,8 @@ class UserController {
 
     async UserRegistre(req, res) {
         //validate data user
-        const { error } = validateRegister.validate(req.body)
+        const { values } = req.body
+        const { error } = validateRegister.validate(values)
         if (error) {
             return res.status(400).json(
                 { error: error.details[0].message }
@@ -92,7 +93,9 @@ class UserController {
         }
         try {
             const data = req.body;
-            const agregar = auth.Users_register(data);
+            const { values } = req.body
+            const { image } = req.body
+            const agregar = auth.Users_register(values, image);
             agregar.then((responde) => {
                 res.status(201).json({ status: "OK", responde });
             }).catch((error) => {
@@ -102,7 +105,6 @@ class UserController {
             console.log("error..")
         }
     }
-
     async PostUsers(req, res) {
         const { error } = validateRegister.validate(req.body)
         if (error) {
@@ -114,7 +116,7 @@ class UserController {
             const data = req.body;
             const agregar = services.CreateUsers(data);
             agregar.then((responde) => {
-                res.status(201).send({ status: "OK", responde, DATA: data1 });
+                res.status(201).send({ status: "OK", responde});
             }).catch((error) => {
                 res.status(500).send({ status: "FAILDED", error });
             })
@@ -136,9 +138,9 @@ class UserController {
 
     async PutUsers(req, res) {
         const cedula = req.params.cedula
-        const data = req.body
-
-        const update = services.updateUsers(data, cedula)
+        const { RowData } = req.body
+        const { image } = req.body
+        const update = services.updateUsers(RowData, image , cedula)
         update.then(responde => {
             res.status(200).json({ status: "ok", responde })
             console.log(responde);

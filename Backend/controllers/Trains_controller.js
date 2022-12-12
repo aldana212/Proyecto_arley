@@ -32,6 +32,21 @@ class TrainsController {
 
     }
 
+    async CreateReserva(req, res){
+        try {
+            const data = req.body;
+            console.log(data);
+            const Reserva = services.CreateReservas(data)
+            Reserva.then(responde =>{
+                res.status(200).json({ status:200, responde})
+            }).catch(err =>{
+                res.status(500).json({ status: 500, err})
+            })   
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     async PutTrai(req, res) {
         try {
             const id = req.params.codigo

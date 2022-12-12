@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Spiner } from "../components/Spiner";
 import { useCookies } from 'react-cookie';
+import { CreateTrainsFormAd, EditTrainsFormAd } from "../components/TrainsFormAd";
 
 
 export function Adm_tren() {
@@ -17,6 +18,7 @@ export function Adm_tren() {
         aforo: '',
         origen: '',
         destino: '',
+        precio: '',
         estado: '',
         numero_tren: '',
         hora: '',
@@ -49,7 +51,6 @@ export function Adm_tren() {
         getTrains()
 
     }, [])
-
 
     const veryToken = async () => {
         if (!cookies.jwt) {
@@ -115,7 +116,6 @@ export function Adm_tren() {
         console.log(values);
         await axios.post("http://localhost:3009/Trains/PostTrains", values)
             .then(({ data }) => {
-                console.log(data);
                 toast.success(data.result, {
                     position: "top-right",
                     autoClose: 2500,
@@ -176,9 +176,9 @@ export function Adm_tren() {
         })
     }
 
-
     const handleFormUpdate = async (e) => {
         e.preventDefault()
+        console.log(RowData);
         axios.put(`http://localhost:3009/Trains/${id}`, RowData)
             .then((e) => {
                 toast.success(e.data.responde, {
@@ -207,10 +207,7 @@ export function Adm_tren() {
                 console.log(err.response.data.error);
             })
     }
-
-
-    //estados para mostrar las modal de registro y actu
-
+    //estados para mostrar las modal de registro y activo
     const [modalShow, setModalShow] = useState(false);
     const [show, setShow] = useState(false);
 
@@ -249,8 +246,10 @@ export function Adm_tren() {
                                         <th>hora_salidad </th>
                                         <th>aforo</th>
                                         <th>destino</th>
-                                        <th>numero_tren</th>
                                         <th>origen</th>
+                                        <th>precio</th> 
+                                        <th>Estado</th> 
+                                        <th>numero_tren</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -261,13 +260,15 @@ export function Adm_tren() {
                                             <td>{trenes.hora_salidad}</td>
                                             <td>{trenes.aforo}</td>
                                             <td>{trenes.destino}</td>
-                                            <td>{trenes.numero_tren}</td>
                                             <td>{trenes.origen}</td>
+                                            <td>{trenes.precio}</td>
+                                            <td>{trenes.estado}</td>
+                                            <td>{trenes.numero_tren}</td>
                                             <td>
                                                 <Button variant="danger" onClick={() => { ShowModelInser1(SetRowData(trenes), setId(trenes.codigo_servicio)) }}>
                                                     Actualizar
                                                 </Button>
-                                                <Button variant="danger" onClick={() => { deleteUsers(trenes.codigo_servicio) }}>
+                                                <Button variant="danger" onClick={() => { deleteUsers(trenes.codigo_servicio)}}>
                                                     eliminar
                                                 </Button>
                                             </td>
@@ -278,91 +279,18 @@ export function Adm_tren() {
                             </table>
                         </div>
                     </div>
-
-                    <div className="model_box mb-5">
-                        <Modal
-                            show={modalShow}
-                            className="mt-5"
-                        >
-                            <Modal.Header closeButton onClick={handleClose}>
-                                <Modal.Title>Add Record</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                <form onSubmit={handleForm}>
-                                    <div className="form-group">
-                                        <input type="text" name='aforo' onChange={handleInput} value={values.aforo} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter aforo" />
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="text" name='origen' onChange={handleInput} value={values.origen} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter origen" />
-                                    </div>
-
-                                    <div className="form-group">
-                                        <input type="text" name='destino' onChange={handleInput} value={values.destino} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter destino" />
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="text" name='estado' onChange={handleInput} value={values.estado} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter estado" />
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="text" name='numero_tren' onChange={handleInput} value={values.numero_tren} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter numero_tren" />
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="time" name='hora' onChange={handleInput} value={values.hora} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter cupos" />
-                                    </div>
-                                    <button type="submit" onClick={handleClose} className="btn btn-success mt-4">Añadir</button>
-                                </form>
-                            </Modal.Body>
-
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={handleClose}>
-                                    Close
-                                </Button>
-
-                            </Modal.Footer>
-                        </Modal>
-                    </div>
-
-                    <div classNameName="model_box">
-                        <Modal
-                            show={show}
-                        >
-                            <Modal.Header closeButton onClick={handleClose}>
-                                <Modal.Title>Edit</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                <form onSubmit={handleFormUpdate}>
-                                    <div className="form-group">
-                                        <input type="text" name='aforo' onChange={handleInputEdit} value={RowData.aforo} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter aforo" />
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="text" name='origen' onChange={handleInputEdit} value={RowData.origen} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter origen" />
-                                    </div>
-
-                                    <div className="form-group">
-                                        <input type="text" name='destino' onChange={handleInputEdit} value={RowData.destino} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter destino" />
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="text" name='estado' onChange={handleInputEdit} value={RowData.estado} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter estado" />
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="text" name='numero_tren' onChange={handleInputEdit} value={RowData.numero_tren} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter numero_tren" />
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="time" name='hora_salidad' onChange={handleInputEdit} value={RowData.hora_salidad} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter cupos" />
-                                    </div>
-
-                                    <button type="submit" className="btn btn-success mt-4">Add Record</button>
-                                </form>
-                            </Modal.Body>
-
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={handleClose}>
-                                    Close
-                                </Button>
-
-                            </Modal.Footer>
-                        </Modal>
-
-                    </div>
+                    <CreateTrainsFormAd modalShow={modalShow}
+                    handleClose={handleClose}
+                    handleForm={handleForm}
+                    handleInput={handleInput}
+                    values={values}
+                    />
+                    <EditTrainsFormAd show={show}
+                    handleClose={handleClose}
+                    handleFormUpdate={handleFormUpdate}
+                    handleInputEdit={handleInputEdit}
+                    RowData={RowData}
+                    />
                 </div>
             </div>
 

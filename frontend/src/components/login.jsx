@@ -16,7 +16,6 @@ export function Login({ click, clicked }) {
         contraseña: ''
     })
 
-
     const handleInput = (e) => {
         const { name, value } = e.target;
         setValues({

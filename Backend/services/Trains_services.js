@@ -24,12 +24,12 @@ class servi_trains {
             return error
         }
     }
+
     CreateTrains(data) {
         try {
-            console.log(data);
             return new Promise((resolve, reject) => {
-                const { aforo, hora, destino, estado, numero_tren, origen } = data;
-                conexion.query('INSERT INTO trenes(aforo,hora_salidad, origen, destino,estado,numero_tren) VALUES(?,?,?,?,?,?)', [aforo, hora, origen, destino, estado, numero_tren], (err, result) => {
+                const { aforo, hora, destino, estado, numero_tren, origen, precio} = data;
+                conexion.query('INSERT INTO trenes(aforo,hora_salidad, origen, destino,estado, precio, numero_tren) VALUES(?,?,?,?,?,?,?)', [aforo, hora, origen, destino, estado, precio, numero_tren], (err, result) => {
                     if (err) {
                         reject("err")
                     } else {
@@ -42,12 +42,22 @@ class servi_trains {
         }
     }
 
+    CreateReservas(data){
+        const { cupos, cedula, codigo } = data
+        return new Promise((resolve, reject) =>{
+            conexion.query("INSERT INTO reservas(cupos, cedula2, codigo_servicio2) values(?, ?, ?)", [cupos, cedula, codigo], (err, result) =>{
+                if(err){return reject(err)}
+                resolve("Su reserva fue exitosamente")
+            })
+        })
+    }
+
     PutTrain(data, id) {
         try {
             return new Promise((resolve, reject) => {
                 // const {aforo, cupos, destino, estado,numero_tren, origen} = data;
-                const { aforo, hora_salidad, destino, estado, numero_tren, origen } = data;
-                conexion.query("UPDATE trenes SET ? WHERE codigo_servicio = ?", [{ aforo,hora_salidad, origen, destino, estado, numero_tren }, id], (err, result) => {
+                const { aforo, hora_salidad, destino, estado, numero_tren, origen, precio } = data;
+                conexion.query("UPDATE trenes SET ? WHERE codigo_servicio = ?", [{ aforo,hora_salidad, origen, destino, precio, estado, numero_tren }, id], (err, result) => {
                     if (err) {
                         return reject(err)
                     } else {
