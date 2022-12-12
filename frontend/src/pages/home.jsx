@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Register } from '../components/register';
 import { Login } from '../components/login';
 import { Link } from 'react-router-dom';
-
+import { FooterUser } from '../components/FooterUser';
 export function Home() {
 
   const [clickLogin, setClickLogin] = useState(false);
@@ -17,12 +17,12 @@ export function Home() {
       <header className={Style.cont_header}>
         <div className={Style.nav} id={Style.container}>
           <Link href="" className={Style.logo}><i className='bx bxs-train'></i>Train Station</Link>
-          <ul className={Style.navbar}>
+          {/* <ul className={Style.navbar}>
             <li><Link to='/HomeUsers'>Home</Link></li>
             <li><Link to='/HomeAdmin'>Trains</Link></li>
             <li><Link to='/AdminUser'>Users</Link></li>
             <li><Link >porperti</Link></li>
-          </ul>
+          </ul> */}
 
           <button onClick={() => setClickLogin(!clickLogin)} className={Style.btn}><i class='bx bxs-user' ></i> Sing in</button>
         </div>
@@ -52,7 +52,7 @@ export function Home() {
           <li><Link href="#"><i className='bx bxl-instagram' id={Style.instagram}></i></Link></li>
         </ul>
       </div>
-
+      <FooterUser/>
     </>
   );
 }
