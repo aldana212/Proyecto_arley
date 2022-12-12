@@ -1,5 +1,6 @@
 import React from 'react'
 import { Header } from '../components/header'
+import { FooterUser } from '../components/FooterUser';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -191,7 +192,7 @@ export function Home_Users() {
 
                 </div>
             </div>
-
+            <FooterUser/>
         </div>
     )
 }

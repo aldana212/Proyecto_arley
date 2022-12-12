@@ -5,6 +5,7 @@ import { Register } from '../components/register';
 import { Login } from '../components/login';
 import { Link } from 'react-router-dom';
 import { FooterUser } from '../components/FooterUser';
+
 export function Home() {
 
   const [clickLogin, setClickLogin] = useState(false);

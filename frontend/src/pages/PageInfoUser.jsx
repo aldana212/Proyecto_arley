@@ -1,6 +1,7 @@
 import React from "react";
 import Style from "../cssComponents/infoUser.module.css";
 import { Header } from "../components/header";
+import { FooterUser } from '../components/FooterUser';
 import imgUser from "../img/userImage.jpg";
 import { useState, useEffect } from "react";
 import axios from 'axios';
@@ -175,6 +176,7 @@ export function InfoUser() {
         RowData={RowData}
         productImg={productImg}
       />
+            <FooterUser/>
     </>
   )
 }

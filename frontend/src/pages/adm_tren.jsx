@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { Spiner } from "../components/Spiner";
 import { useCookies } from 'react-cookie';
 import { CreateTrainsFormAd, EditTrainsFormAd } from "../components/TrainsFormAd";
+import { FooterUser } from '../components/FooterUser';
 
 
 export function Adm_tren() {
@@ -338,7 +339,7 @@ export function Adm_tren() {
                     />
                 </div>
             </div>
-
+            <FooterUser/>
         </>
     )
 }

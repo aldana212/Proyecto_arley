@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Modal, Row } from 'react-bootstrap';
 import { Header } from '../components/header'
+import { FooterUser } from '../components/FooterUser';
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import swal from 'sweetalert2'
@@ -323,6 +324,7 @@ export function Adm_Users() {
           />
         </div>
       </div>
+      <FooterUser/>
     </>
   )
 }
