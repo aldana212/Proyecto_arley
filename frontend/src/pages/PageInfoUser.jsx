@@ -10,6 +10,8 @@ import { useCookies } from 'react-cookie';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { EditUserFormAd } from "../components/UserFormAd";
+import Table from 'react-bootstrap/Table';
+
 
 export function InfoUser() {
 
@@ -172,6 +174,41 @@ export function InfoUser() {
             </ul>
           </div>
           <button className={Style.btnUpdate} onClick={() => { ShowModelInser1(SetRowData(datos), setId(datos.cedula)) }} role="button">UPDATE MY INFORMATION</button>
+        </div>
+
+      <div className={Style.container}>
+        <h3 className={Style.title}>My Bookings</h3>
+
+        <Table striped bordered hover variant="dark">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Username</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td colSpan={2}>Larry the Bird</td>
+          <td>@twitter</td>
+        </tr>
+      </tbody>
+    </Table>
+
         </div>
       </section>
       <EditUserFormAd show={show}
