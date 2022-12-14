@@ -1,7 +1,7 @@
 import React from 'react'
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal } from 'react-bootstrap';
-import { Header } from '../components/header'
+import { HeaderAdmin } from '../components/headerAdmin'
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import swal from 'sweetalert2'
@@ -265,7 +265,7 @@ export function Adm_tren() {
 
     return (
         <>
-            <Header logOut={logOut} Avatar={avatar} />
+            <HeaderAdmin logOut={logOut} Avatar={avatar} />
             <div className="container">
                 <div className="crud shadow-lg p-3  bg-body rounded mt-5">
                     <div className="row ">

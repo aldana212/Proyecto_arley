@@ -1,6 +1,7 @@
 import React from "react";
 import Style from "../cssComponents/infoUser.module.css";
 import { Header } from "../components/header";
+import { HeaderAdmin } from '../components/headerAdmin'
 import { FooterUser } from '../components/FooterUser';
 import imgUser from "../img/userImage.jpg";
 import { useState, useEffect } from "react";
@@ -110,11 +111,8 @@ export function InfoUser() {
         })
       const Avatar = data.data.url_image
       const data1 = data.data
-      // console.log(data.data.);
       setDatos(data1)
       setAvatar(Avatar);
-      console.log(avatar);
-      console.log(datos);
       if (!data.status) {
         removeCookie('jwt')
         navigate("/")
@@ -140,7 +138,15 @@ export function InfoUser() {
 
   return (
     <>
-      <Header logOut={logOut} Avatar={avatar} />
+    {
+      datos.id_rol1 === 1 ? 
+      <>
+      <HeaderAdmin logOut={logOut} Avatar={avatar} />
+      </> :
+      <>
+      <Header logOut={logOut} Avatar={avatar} />      
+      </>
+    }
       <section className={Style.seccionPerfilUsuario}>
         <div className={Style.perfilUsuarioPortada}>
           <div className={Style.perfilUsuarioAvatar}>

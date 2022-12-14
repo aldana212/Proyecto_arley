@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Modal, Row } from 'react-bootstrap';
-import { Header } from '../components/header'
+import { HeaderAdmin } from '../components/headerAdmin'
 import { FooterUser } from '../components/FooterUser';
 import { useState, useEffect } from "react";
 import axios from 'axios';
@@ -266,7 +266,7 @@ export function Adm_Users() {
 
   return (
     <>
-      <Header logOut={logOut} Avatar={avatar} />
+      <HeaderAdmin logOut={logOut} Avatar={avatar} />
       <div className="container">
         <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded ">
           <div className="row ">
