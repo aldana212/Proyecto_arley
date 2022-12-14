@@ -98,7 +98,6 @@ class TrainsController {
 
     async deleteTrain(req, res) {
         const id = req.params.codigo
-        console.log(id);
         const deleteTra = services.deleteTrain(id)
         deleteTra.then(result => {
             res.status(201).json({ status: 201, result })

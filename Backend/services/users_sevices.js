@@ -83,7 +83,6 @@ class servi_User {
                         const uploadRes = await cloudinary.uploader.upload(image, {
                             upload_preset: 'Online-trains31'
                         })
-                        if (uploadRes) {
                             const url_image = uploadRes.url
                             const cloudinaryId = uploadRes.public_id
                             conexion.query(`UPDATE usuario SET ? WHERE cedula = ?`, [{ cedula, name, mail, contraseña, url_image, cloudinaryId}, id], async (err, results) => {
@@ -93,7 +92,14 @@ class servi_User {
                                 }
                                 resolve("Actualizacion correcta")
                             })
-                        }
+                    }else{
+                        conexion.query(`UPDATE usuario SET ? WHERE cedula = ?`, [{ cedula, name, mail, contraseña}, id], async (err, results) => {
+                            if (err) {
+                                console.log(err);
+                                return reject("err")
+                            }
+                            resolve("Actualizacion correcta")
+                        })
                     }
                 })
 

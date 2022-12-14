@@ -136,7 +136,6 @@ class UserController {
         const update = services.updateUsers(RowData, image , cedula)
         update.then(responde => {
             res.status(200).json({ status: "ok", responde })
-            console.log(responde);
         }).catch(error => {
             res.status(500).json({ status: "failded", error })
         })
