@@ -6,6 +6,7 @@ const controller = new TrainController();
 
 
 router.get('/GetTrains', controller.GetTrains)
+router.get('/GetTrainsCards', controller.cardTrainsUsers)
 router.post('/PostTrains', controller.CreateTrains)
 router.post('/PostReserva', controller.CreateReserva)
 router.put('/:codigo', controller.PutTrai)

@@ -2,6 +2,31 @@ const conexion = require('../data/bd')
 const cloudinary = require('../util/cloudinary')
 
 class servi_trains {
+
+    async cardTrainsUser() {
+        try {
+            return new Promise((resolve, reject) => {
+                conexion.query("SELECT * FROM trenes",
+                    (error, result) => {
+                        if (error) {
+                            reject(error)
+                        } else {
+                            conexion.query("SELECT trenes.aforo - SUM(reservas.cupos)  as cantidad, codigo_servicio2 FROM trenes INNER JOIN reservas ON codigo_servicio = codigo_servicio2 GROUP BY codigo_servicio",(err, userdata) =>
+                            { 
+                                
+                                resolve({
+                                    result,
+                                    userdata,
+                                })
+                            })  
+                        }
+                    });
+            })
+        } catch (error) {
+            return error
+        }
+    }
+
     async trains_users() {
         try {
             return new Promise((resolve, reject) => {
@@ -9,6 +34,7 @@ class servi_trains {
                     if (error) {
                         reject(error)
                     } else {
+                        console.log(result);
                         resolve(result)
                     }
                 });
@@ -49,19 +75,19 @@ class servi_trains {
     async CreateReservas(data) {
         const { cupos, cedula, codigo } = data
         return new Promise((resolve, reject) => {
-            // conexion.query("SELECT trenes.aforo, SUM(reservas.cupos) as cantidad FROM trenes INNER JOIN reservas ON codigo_servicio = codigo_servicio2 GROUP BY trenes.codigo_servicio HAVING SUM(reservas.cupos) < trenes.aforo", (err, result) =>{
-            conexion.query("SELECT SUM(cupos) FROM reservas GROUP BY id_reservas LIMIT 5", (err, result) => {
-                console.log(result);
-                // const suma = parseInt(cupos) + parseInt(result[0].cantidad);
-                // console.log(suma);
-                // if (suma > result[0].aforo) {
-                //     reject("limite de cupos1")
-                // } else {
-                //     conexion.query("INSERT INTO reservas(cupos, cedula2, codigo_servicio2) values(?, ?, ?)", [cupos, cedula, codigo], (err, result) => {
-                //         if (err) { return reject(err) }
-                //         resolve("Su reserva fue exitosamente")
-                //     })
-                // }
+            // conexion.query("SELECT trenes.aforo, SUM(reservas.cupos) as cantidad FROM trenes INNER JOIN reservas ON codigo_servicio = codigo_servicio2 GROUP BY trenes.codigo_servicio HAVING SUM(reservas.cupos) < trenes.aforo<", (err, result) =>{
+            conexion.query("SELECT trenes.aforo ,SUM(reservas.cupos) as cantidad FROM trenes INNER JOIN reservas ON codigo_servicio = codigo_servicio2 WHERE codigo_servicio2 = ?", [codigo], (err, results) => {
+                results[0].cantidad =+ 0;
+                const suma = parseInt(cupos) + parseInt(results[0].cantidad);
+                console.log(suma);
+                if (suma > results[0].aforo) {
+                    reject("limite de cupos")
+                } else {
+                    conexion.query("INSERT INTO reservas(cupos, cedula2, codigo_servicio2) values(?, ?, ?)", [cupos, cedula, codigo], (err, result) => {
+                        if (err) { return reject(err) }
+                        resolve("Su reserva fue exitosamente")
+                    })
+                }
             })
         })
     }

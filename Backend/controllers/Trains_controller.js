@@ -13,9 +13,21 @@ const validateTrenes = Joi.object({
     numero_tren: Joi.number().required(),
 })
 
-
-
 class TrainsController {
+    async cardTrainsUsers(req, res) {
+        try {
+            const show = services.cardTrainsUser()
+            show.then((result) => {
+                res.status(201).json({ status: 2001, result })
+            }).catch((err) => {
+                res.status(501).json({ status: 501, err })
+            });
+        } catch (error) {
+            console.log("error..")
+        }
+
+    }
+
     async GetTrains(req, res) {
         try {
             const show = services.trains_users()
