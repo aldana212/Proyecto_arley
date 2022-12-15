@@ -5,14 +5,12 @@ class servi_trains {
 
     async cardTrainsUser() {
         try {
-            return new Promise((resolve, reject) => {
-                conexion.query("SELECT * FROM trenes",
-                    (error, result) => {
+            return new Promise(async(resolve, reject) => {
+                conexion.query("SELECT * FROM trenes",async(error, result) => {
                         if (error) {
                             reject(error)
                         } else {
-                            conexion.query("SELECT trenes.aforo - SUM(reservas.cupos)  as cantidad, codigo_servicio2 FROM trenes INNER JOIN reservas ON codigo_servicio = codigo_servicio2 GROUP BY codigo_servicio", (err, userdata) => {
-
+                        conexion.query("SELECT trenes.aforo - SUM(reservas.cupos)  as cantidad, codigo_servicio2 FROM trenes INNER JOIN reservas ON codigo_servicio = codigo_servicio2 GROUP BY codigo_servicio", (err, userdata) => {
                                 resolve({
                                     result,
                                     userdata,
@@ -75,9 +73,14 @@ class servi_trains {
         return new Promise((resolve, reject) => {
             // conexion.query("SELECT trenes.aforo, SUM(reservas.cupos) as cantidad FROM trenes INNER JOIN reservas ON codigo_servicio = codigo_servicio2 GROUP BY trenes.codigo_servicio HAVING SUM(reservas.cupos) < trenes.aforo<", (err, result) =>{
             conexion.query("SELECT trenes.aforo ,SUM(reservas.cupos) as cantidad FROM trenes INNER JOIN reservas ON codigo_servicio = codigo_servicio2 WHERE codigo_servicio2 = ?", [codigo], (err, results) => {
-                results[0].cantidad = + 0;
+                // const Cantidad = parseInt(results[0].cantidad) + 0;
+                const aforo = parseInt(results[0].aforo)
                 const suma = parseInt(cupos) + parseInt(results[0].cantidad);
-                if (suma > results[0].aforo) {
+                console.log(aforo);
+                console.log(results[0].cantidad + 0);
+                console.log(suma);
+                if (suma > aforo) {
+                    console.log("limite de cupos");
                     reject("limite de cupos")
                 } else {
                     conexion.query("INSERT INTO reservas(cupos, cedula2, codigo_servicio2) values(?, ?, ?)", [cupos, cedula, codigo], (err, result) => {

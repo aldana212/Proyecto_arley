@@ -30,6 +30,73 @@ export function Home_Users() {
     const [cantidad, setCantidad] = useState([])
     const [cookies, setCookie, removeCookie] = useCookies([])
 
+    const getCards = async () => {
+        const { data } = await axios.get("http://localhost:3009/Trains/GetTrainsCards")
+        const resul = data.result.result
+        const cantidad = data.result.userdata
+        setCards(resul)
+        setCantidad(cantidad)
+        setisLoding(false)
+    }
+
+    const handleReservar = async (e) => {
+        e.preventDefault();
+        const datos = { cupos, codigo, cedula }
+        if (datos.cupos == '' || datos.cupos == 0 ) {
+            toast.error("tienes que digitar los cupos")
+        } else {
+            await axios.post('http://localhost:3009/Trains/PostReserva', datos)
+                .then(({ data }) => {
+                    toast.success(data.responde, {
+                        position: "top-right",
+                        autoClose: 2500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                    handleClose()
+                    setCupos("")
+                    navigate("/InfoUser")
+                }).catch((err) => {
+                    toast.error(err.response.data.err, {
+                        position: "top-right",
+                        autoClose: 2500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                })
+        }
+    }
+
+    // const [modalShow, setModalShow] = useState(false);
+    const [show, setShow] = useState(false);
+
+    // const ShowModelInser = () => setModalShow(true);
+
+    const ShowModelInser1 = () => setShow(true);
+
+    const handleClose = () => {
+        setShow(false)
+    };
+
+    // prueba
+    // const handleCupos = (codigo, codigo2, cantidad) => {
+    //     if (codigo === codigo2) {
+    //         // setBotonActivo(false)
+    //         if (cantidad == 0) {
+    //             // setBotonActivo(true);
+    //             return <ListGroup.Item><Alert variant='danger'>limite de cupos</Alert></ListGroup.Item>
+    //         }
+    //         return <ListGroup.Item>cupos disponibles: {cantidad}</ListGroup.Item>
+    //     }
+    // }
     useEffect(() => {
         veryToken()
         getCards()
@@ -46,7 +113,6 @@ export function Home_Users() {
                 {
                     withCredentials: true,
                 })
-            console.log(data);
             const Avatar = data.data.url_image
             const cedula = data.data.cedula
             setAvatar(Avatar);
@@ -86,76 +152,6 @@ export function Home_Users() {
         navigate("/")
     }
 
-    const getCards = async () => {
-        const { data } = await axios.get("http://localhost:3009/Trains/GetTrainsCards")
-        const resul = data.result.result
-        const cantidad = data.result.userdata
-        setCards(resul)
-        setCantidad(cantidad)
-        setisLoding(false)
-    }
-
-    const handleReservar = async (e) => {
-        e.preventDefault();
-        const datos = { cupos, codigo, cedula }
-        console.log(datos.cupos);
-        if (datos.cupos == '' || datos.cupos == 0) {
-            toast.error("tienes que digitar los cupos")
-        } else {
-            await axios.post('http://localhost:3009/Trains/PostReserva', datos)
-                .then(({ data }) => {
-                    toast.success(data.responde, {
-                        position: "top-right",
-                        autoClose: 2500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
-                    getCards()
-                    handleClose()
-                    setCupos("")
-                }).catch((err) => {
-                    toast.error(err.response.data.err, {
-                        position: "top-right",
-                        autoClose: 2500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
-                })
-        }
-    }
-
-    // const [modalShow, setModalShow] = useState(false);
-    const [show, setShow] = useState(false);
-
-    // const ShowModelInser = () => setModalShow(true);
-
-    const ShowModelInser1 = () => setShow(true);
-
-    const handleClose = () => {
-        setShow(false)
-        // setModalShow(false)
-    };
-
-    // prueba
-    // const handleCupos = (codigo, codigo2, cantidad) => {
-    //     if (codigo === codigo2) {
-    //         // setBotonActivo(false)
-    //         if (cantidad == 0) {
-    //             // setBotonActivo(true);
-    //             return <ListGroup.Item><Alert variant='danger'>limite de cupos</Alert></ListGroup.Item>
-    //         }
-    //         return <ListGroup.Item>cupos disponibles: {cantidad}</ListGroup.Item>
-    //     }
-    // }
-
     if (isLoding) {
         return <div><Spiner /></div>
     }
@@ -172,15 +168,16 @@ export function Home_Users() {
                                     <Card.Img src={card.url_image} style={{ width: '100%', height: '170px' }}></Card.Img>
                                     <Card.Body>
                                         <ListGroup className="list-group-flush">
+                                            <ListGroup.Item>aforo:  {card.aforo}</ListGroup.Item>
                                             <ListGroup.Item>Origen:  {card.origen}</ListGroup.Item>
                                             <ListGroup.Item>Destino:  {card.destino}</ListGroup.Item>
                                             <ListGroup.Item>Hora Salidad:  {card.hora_salidad}</ListGroup.Item>
                                             <ListGroup.Item>Precio:  {card.precio}</ListGroup.Item>
                                             {cantidad.map((cant) => (
                                                 <>
-                                                    {(card.codigo_servicio == cant.codigo_servicio2) &&
+                                                    {(card.codigo_servicio === cant.codigo_servicio2) &&
                                                         <>
-                                                            {cant.cantidad === 0 ?
+                                                            {cant.cantidad == 0 ?
                                                                 <>
                                                                     <ListGroup.Item><Alert variant='danger'>limite de cupos</Alert></ListGroup.Item>
                                                                 </> :
@@ -213,7 +210,7 @@ export function Home_Users() {
                         <Modal.Body>
                             <form onSubmit={handleReservar}>
                                 <div className="form-group">
-                                    <input type="text" name='cupos' onChange={(e) => { setCupos(e.target.value) }} value={cupos} className="form-control" />
+                                    <input type="number" name='cupos' onChange={(e) => { setCupos(e.target.value) }} value={cupos} className="form-control" />
                                 </div>
                                 <button type="submit" className="btn btn-success mt-4">Reservar</button>
                             </form>

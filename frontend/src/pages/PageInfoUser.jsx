@@ -3,7 +3,6 @@ import Style from "../cssComponents/infoUser.module.css";
 import { Header } from "../components/header";
 import { HeaderAdmin } from '../components/headerAdmin'
 import { FooterUser } from '../components/FooterUser';
-import imgUser from "../img/userImage.jpg";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
@@ -28,6 +27,49 @@ export function InfoUser() {
   const [productImg, setProductImg] = useState("");
 
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    veryToken()
+    getReser()
+  }, [])
+
+  const veryToken = async () => {
+    if (!cookies.jwt) {
+      toast.error("error")
+      navigate("/")
+    } else {
+      const { data } = await axios.get(
+        'http://localhost:3009/user/Admin',
+        {
+          withCredentials: true,
+        })
+      const Avatar = data.data.url_image
+      const data1 = data.data
+      console.log(data1);
+      setDatos(data1)
+      setAvatar(Avatar);
+      if (!data.status) {
+        removeCookie('jwt')
+        navigate("/")
+      } else {
+        toast.success(`Bienvenido ${data.data.name}`, {
+          position: "top-right",
+          autoClose: 2500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
+  }
+
+  const logOut = () => {
+    removeCookie('jwt')
+    navigate("/")
+  }
 
   const handleProductImageUpload = (e) => {
     const file = e.target.files[0];
@@ -97,58 +139,27 @@ export function InfoUser() {
     setProductImg("");
   };
 
-  useEffect(() => {
-    veryToken()
-  }, [])
+  const [CarRes, setCarRes] = useState([])
 
-  const veryToken = async () => {
-    if (!cookies.jwt) {
-      toast.error("error")
-      navigate("/")
-    } else {
-      const { data } = await axios.get(
-        'http://localhost:3009/user/Admin',
-        {
-          withCredentials: true,
-        })
-      const Avatar = data.data.url_image
-      const data1 = data.data
-      setDatos(data1)
-      setAvatar(Avatar);
-      if (!data.status) {
-        removeCookie('jwt')
-        navigate("/")
-      }else {
-        toast.success(`Bienvenido ${data.data.name}`, {
-          position: "top-right",
-          autoClose: 2500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
-    }
-  }
-
-  const logOut = () => {
-    removeCookie('jwt')
-    navigate("/")
+  const getReser = async () => {
+    const cedula = datos.cedula;
+    console.log(cedula);
+    const { data } = await axios.get(`http://localhost:3009/user/UserCard/${cedula}`)
+    console.log(data);
+    setCarRes(data.responde)
   }
 
   return (
     <>
-    {
-      datos.id_rol1 === 1 ? 
-      <>
-      <HeaderAdmin logOut={logOut} Avatar={avatar} />
-      </> :
-      <>
-      <Header logOut={logOut} Avatar={avatar} />      
-      </>
-    }
+      {
+        datos.id_rol1 === 1 ?
+          <>
+            <HeaderAdmin logOut={logOut} Avatar={avatar} />
+          </> :
+          <>
+            <Header logOut={logOut} Avatar={avatar} />
+          </>
+      }
       <section className={Style.seccionPerfilUsuario}>
         <div className={Style.perfilUsuarioPortada}>
           <div className={Style.perfilUsuarioAvatar}>
@@ -176,39 +187,45 @@ export function InfoUser() {
           <button className={Style.btnUpdate} onClick={() => { ShowModelInser1(SetRowData(datos), setId(datos.cedula)) }} role="button">UPDATE MY INFORMATION</button>
         </div>
 
-      <div className={Style.container}>
-        <h3 className={Style.title}>My Bookings</h3>
+        <div className="container">
+          <div className="crud shadow-lg p-3  bg-body rounded mt-5">
+            <div className="row">
+              <div className="table-responsive " >
+              {/* <div className="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred" id={Style.title}><h2><b>My Bookings</b></h2></div> */}
+                <h3 className={Style.title}>My Bookings</h3>
+                <Table className="table table-striped table-hover table-bordered ">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>img</th>
+                      <th>Origen</th>
+                      <th>Destino</th>
+                      <th>Fecha de Reserva</th>
+                      <th>Precio</th>
+                      <th>Cupos</th>
+                      <th>Fecha de Salida</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {CarRes.map((card) => (
+                      <tr>
+                        <td>{card.codigo_servicio}</td>
+                        <td><img src={card.url_image} style={{ height: '70px', width: '70px', marginLeft: '20px' }} /></td>
+                        <td>{card.origen}</td>
+                        <td>{card.destino}</td>
+                        <td>{card.fecha_salidad}</td>
+                        <td>{card.precio}</td>
+                        <td>{card.cupos}</td>
+                        <td>{card.hora_salidad}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
 
-        <Table striped bordered hover variant="dark">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Username</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td colSpan={2}>Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
-      </tbody>
-    </Table>
+              </div>
+            </div>
 
+          </div>
         </div>
       </section>
       <EditUserFormAd show={show}
@@ -219,7 +236,7 @@ export function InfoUser() {
         RowData={RowData}
         productImg={productImg}
       />
-            <FooterUser/>
+      <FooterUser />
     </>
   )
 }

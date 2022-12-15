@@ -55,6 +55,22 @@ class UserController {
     //         console.log("error.." + error)
     //     }
     // }
+
+    async UserCardTrain(req, res){
+        try {
+        const id = req.params.cedula;
+        console.log(id);
+        const ShowCard = services.UserCardTrain(id)
+        ShowCard.then(responde =>{
+           res.status(201).json({ status:201, responde})
+        }).catch(err =>{
+           res.status(501).json({ status:501, err})
+        })  
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
     async UserLogin(req, res) {
         const { error } = validateLogin.validate(req.body)
         if (error) {

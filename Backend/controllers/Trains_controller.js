@@ -20,6 +20,7 @@ class TrainsController {
             show.then((result) => {
                 res.status(201).json({ status: 2001, result })
             }).catch((err) => {
+                console.log("err");
                 res.status(501).json({ status: 501, err })
             });
         } catch (error) {

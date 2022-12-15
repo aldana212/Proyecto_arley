@@ -35,6 +35,19 @@ class servi_User {
         }
     }
 
+    UserCardTrain(id){
+        return new Promise((resolve, reject) =>{
+            conexion.query("SELECT * FROM trenes INNER JOIN reservas ON codigo_servicio = codigo_servicio2 WHERE cedula2 = ?", [id], (err, result) =>{
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(result)
+                }
+            })
+        })
+
+    }
+
     CreateUsers(data) {
         try {
             return new Promise(async (resolve, reject) => {
